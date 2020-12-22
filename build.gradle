@@ -1,0 +1,43 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.5.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+	id 'war'
+}
+
+group = 'org.kickmyb'
+version = '1'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jersey'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// TODO en cours, pas de version = dernière version
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+	implementation group: 'com.google.guava', name: 'guava', version: '30.0-jre'
+	implementation group: 'joda-time', name: 'joda-time', version: '2.10.8'
+
+	implementation 'org.kickmyb:common:1.0'
+
+	implementation 'org.imgscalr:imgscalr-lib:4.2'
+
+	runtimeOnly 'org.apache.derby:derby'
+	runtimeOnly	'com.h2database:h2:+'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
