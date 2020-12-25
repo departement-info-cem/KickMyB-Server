@@ -18,5 +18,7 @@ https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
 * télécharger le cli
 * en ligne de commandes : heroku login
 * aller dans le dossier du projet : heroku create
+*  heroku apps:rename kickmyb-server pour renommer appli  
 * https://devcenter.heroku.com/articles/local-maven-dependencies local library fucks
-* comment gérer le SSL va dépendre du déploiement
+* 
+* git push heroku HEAD:master
