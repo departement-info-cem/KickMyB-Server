@@ -20,5 +20,7 @@ https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
 * aller dans le dossier du projet : heroku create
 *  heroku apps:rename kickmyb-server pour renommer appli  
 * https://devcenter.heroku.com/articles/local-maven-dependencies local library fucks
-* 
 * git push heroku HEAD:master
+* not working because of java version. created system.properties file > java 11
+* successful push but app crashes on request https://kickmyb-server.herokuapp.com/api/id/signup
+* created Procfile to tell heroku how to run the app after building
