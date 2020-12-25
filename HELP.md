@@ -24,3 +24,5 @@ https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
 * not working because of java version. created system.properties file > java 11
 * successful push but app crashes on request https://kickmyb-server.herokuapp.com/api/id/signup
 * created Procfile to tell heroku how to run the app after building
+* ./gradlew build -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
+* heroku local web 
