@@ -14,8 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RESTExceptionHandler
   extends ResponseEntityExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value
-      = { Exception.class })
+    @ExceptionHandler(value = { Exception.class })
     protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
         ex.printStackTrace();
         String bodyOfResponse = ex.getClass().getSimpleName();
