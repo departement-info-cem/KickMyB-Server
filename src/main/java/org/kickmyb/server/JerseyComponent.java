@@ -15,12 +15,12 @@ import javax.ws.rs.ApplicationPath;
 // TODO enlever jersey Spring a déjà ce qu'il faut donc...  Exception mapping and Gson
 
 @Component
-@ApplicationPath("/api/*")                              // TODO change to fix the prefix for all services, remove if none
+@ApplicationPath("/exo/*")                              // TODO change to fix the prefix for all services, remove if none
 public class JerseyComponent extends ResourceConfig {
     public JerseyComponent() {
         // register each class that has endpoints in them
-        register(WebServiceID.class);
-        register(WebServiceCore.class);
+        //register(WebServiceID.class);
+        //register(WebServiceCore.class);
         register(GSONMapper.class);
         register(CatchAllMapper.class);
         // Will make deployment fail but not local run come on man!!!
