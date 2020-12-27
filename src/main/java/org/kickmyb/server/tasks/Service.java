@@ -1,6 +1,5 @@
 package org.kickmyb.server.tasks;
 
-import org.kickmyb.server.exceptions.Existing;
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.transfer.*;
 

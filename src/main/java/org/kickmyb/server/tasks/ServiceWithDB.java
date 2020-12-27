@@ -1,6 +1,5 @@
 package org.kickmyb.server.tasks;
 
-import org.kickmyb.server.exceptions.Existing;
 import org.kickmyb.server.model.MTask;
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.server.model.MEventRepository;
@@ -76,7 +75,11 @@ public class ServiceWithDB implements Service{
         String res = "<html>";
         res += "<div>Index :</div>";
         for (MUser u: repoUser.findAll()) {
-            res += "<div>" + u.username  + "</div>";
+            res += "<div>" + u.username  ;
+            for (MTask t : u.tasks) {
+                res += "<div>" + t.name  + "</div>";
+            }
+            res += "</div>";
         }
         res += "</html>";
         return res;

@@ -1,19 +1,10 @@
 package org.kickmyb.server.exos;
 
-import org.kickmyb.server.exceptions.BadCredentials;
-import org.kickmyb.server.exceptions.Existing;
-import org.kickmyb.server.model.MUser;
-import org.kickmyb.server.tasks.Service;
-import org.kickmyb.transfer.AddTaskRequest;
-import org.kickmyb.transfer.HomeItemResponse;
-import org.kickmyb.transfer.TaskDetailResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.kickmyb.server.id.BadCredentials;
+import org.kickmyb.server.tasks.Existing;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

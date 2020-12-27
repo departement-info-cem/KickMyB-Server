@@ -1,6 +1,5 @@
 package org.kickmyb.server.id;
 
-import org.kickmyb.server.exceptions.BadCredentials;
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.server.model.MUserRepository;
 

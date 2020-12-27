@@ -1,4 +1,4 @@
-package org.kickmyb.server.exceptions;
+package org.kickmyb.server.id;
 
 public class BadCredentials extends Exception {
 }

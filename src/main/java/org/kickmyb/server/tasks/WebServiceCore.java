@@ -1,7 +1,6 @@
 package org.kickmyb.server.tasks;
 
-import org.kickmyb.server.exceptions.BadCredentials;
-import org.kickmyb.server.exceptions.Existing;
+import org.kickmyb.server.id.BadCredentials;
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.transfer.AddTaskRequest;
 import org.kickmyb.transfer.HomeItemResponse;
@@ -41,8 +40,12 @@ public class WebServiceCore {
 
 	@GetMapping("/index")
 	public @ResponseBody String htmlIndex() {
-		UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println("WS SOCIAL : INDEX  with cookie ::: " + ud.getUsername());
+		try {
+			UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			System.out.println("WS SOCIAL : INDEX  with cookie ::: " + ud.getUsername());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		return service.index();
 	}
 

@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 
 // TODO utiliser Spring security pour gérer les comptes
 // TODO implémenter le paging pour une liste très longue ????
-// TODO compléter événements pour un bébé
+// TODO compléter détails d'une task
 // TODO regarder déploiement sur AWS ou Heroku ou autre
 
-	
+
 @SpringBootApplication(exclude = {JacksonAutoConfiguration.class})
 public class ServerApplication {
 

@@ -1,6 +1,5 @@
 package org.kickmyb.server.id;
 
-import org.kickmyb.server.exceptions.BadCredentials;
 import org.kickmyb.transfer.SignupRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
