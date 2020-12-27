@@ -24,7 +24,7 @@ public class WebServiceCore {
 	@Autowired 		private Service service;
 
 	@PostMapping("/api/add")
-	public @ResponseBody String addOne(@RequestBody AddTaskRequest request) throws Existing, BadCredentials {
+	public @ResponseBody String addOne(@RequestBody AddTaskRequest request) throws Existing {
 		System.out.println("WS SOCIAL : add baby");
 		MUser user = currentUser();
 		service.addOne(request, user);
@@ -32,7 +32,7 @@ public class WebServiceCore {
 	}
 
 	@GetMapping("/api/home")
-	public @ResponseBody List<HomeItemResponse> home() throws BadCredentials {
+	public @ResponseBody List<HomeItemResponse> home() {
 		System.out.println("WS SOCIAL : HOME REQUEST  with cookie" );
 		MUser user = currentUser();
 		return service.home(user.id);
@@ -50,7 +50,7 @@ public class WebServiceCore {
 	}
 
     @GetMapping("/api/detail/{id}")
-    public @ResponseBody TaskDetailResponse detail(@PathVariable long id) throws BadCredentials {
+    public @ResponseBody TaskDetailResponse detail(@PathVariable long id) {
 		System.out.println("WS SOCIAL : DETAIL  with cookie " );
 		MUser user = currentUser();
 		return service.detail(id, user);
