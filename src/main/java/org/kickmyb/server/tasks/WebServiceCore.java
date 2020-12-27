@@ -23,7 +23,7 @@ public class WebServiceCore {
 	// @Component qui implémente l'interface
 	@Autowired 		private Service service;
 
-	@PostMapping("/api/addbaby")
+	@PostMapping("/api/add")
 	public @ResponseBody String addOne(@RequestBody AddTaskRequest request) throws Existing, BadCredentials {
 		System.out.println("WS SOCIAL : add baby");
 		MUser user = currentUser();
