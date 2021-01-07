@@ -5,6 +5,7 @@ import org.kickmyb.server.tasks.Existing;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -73,6 +74,11 @@ public class WebServiceExos {
 	public @ResponseBody String htmlIndex(@RequestBody Requete req) throws TropCourt {
 		if (req.nom.length() < 5) throw new TropCourt();
 		return "Yeah!!!";
+	}
+
+	@GetMapping("/exos/cookie/echo")
+	public @ResponseBody String echoCookie(HttpSession session) throws Existing, BadCredentials {
+		return session.getId();
 	}
 
 }
