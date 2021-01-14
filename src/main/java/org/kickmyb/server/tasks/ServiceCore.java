@@ -6,7 +6,7 @@ import org.kickmyb.transfer.*;
 
 import java.util.List;
 
-public interface Service {
+public interface ServiceCore {
 
     // entity handling
     TaskDetailResponse detail(Long id, MUser user);

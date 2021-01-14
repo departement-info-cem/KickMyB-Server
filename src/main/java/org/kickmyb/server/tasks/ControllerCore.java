@@ -1,6 +1,5 @@
 package org.kickmyb.server.tasks;
 
-import org.kickmyb.server.id.BadCredentials;
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.transfer.AddTaskRequest;
 import org.kickmyb.transfer.HomeItemResponse;
@@ -17,17 +16,17 @@ import java.util.List;
 // Can be mixed with Spring Security security
 // And can used Autowired Services too
 @Controller
-public class WebServiceCore {
+public class ControllerCore {
 
 	// explication de Autowired : Spring trouve automatiquement la classe annotée
 	// @Component qui implémente l'interface
-	@Autowired 		private Service service;
+	@Autowired 		private ServiceCore serviceCore;
 
 	@PostMapping("/api/add")
 	public @ResponseBody String addOne(@RequestBody AddTaskRequest request) throws Existing {
 		System.out.println("WS SOCIAL : add baby");
 		MUser user = currentUser();
-		service.addOne(request, user);
+		serviceCore.addOne(request, user);
 		return "";
 	}
 
@@ -35,7 +34,7 @@ public class WebServiceCore {
 	public @ResponseBody List<HomeItemResponse> home() {
 		System.out.println("WS SOCIAL : HOME REQUEST  with cookie" );
 		MUser user = currentUser();
-		return service.home(user.id);
+		return serviceCore.home(user.id);
 	}
 
 	@GetMapping("/index")
@@ -46,14 +45,14 @@ public class WebServiceCore {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return service.index();
+		return serviceCore.index();
 	}
 
     @GetMapping("/api/detail/{id}")
     public @ResponseBody TaskDetailResponse detail(@PathVariable long id) {
 		System.out.println("WS SOCIAL : DETAIL  with cookie " );
 		MUser user = currentUser();
-		return service.detail(id, user);
+		return serviceCore.detail(id, user);
     }
 
 	/**
@@ -63,7 +62,7 @@ public class WebServiceCore {
 	 */
 	private MUser currentUser() {
 		UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		MUser user = service.userFromUsername(ud.getUsername());
+		MUser user = serviceCore.userFromUsername(ud.getUsername());
 		return user;
 	}
 

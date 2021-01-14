@@ -56,7 +56,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // TODO various authentication session, token, JWT, authentication provider OAuth
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class ConfigSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     ServiceID userService;

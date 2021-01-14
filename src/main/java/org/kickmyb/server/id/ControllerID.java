@@ -8,7 +8,6 @@ import org.kickmyb.transfer.SigninResponse;
 import org.kickmyb.transfer.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 //@Path("/id")
 @Controller
-public class WebServiceID {
+public class ControllerID {
 
     // Spring security requires the AuthenticationManager to inject the security Context in the session
     @Autowired      private AuthenticationManager authManager;
@@ -32,7 +31,7 @@ public class WebServiceID {
     @Autowired      private Gson gson;
 
     @PostMapping("/api/id/signin")
-    public @ResponseBody SigninResponse signin(@RequestBody  SigninRequest s) throws BadCredentials {
+    public @ResponseBody SigninResponse signin(@RequestBody  SigninRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNIN request " + s);
         s.username = s.username.trim().toLowerCase();
         try {
@@ -45,13 +44,13 @@ public class WebServiceID {
             SigninResponse resp = new SigninResponse();
             resp.username = s.username;
             return resp;
-        } catch (BadCredentialsException bce) {
-            throw new BadCredentials();
+        } catch (org.springframework.security.authentication.BadCredentialsException bce) {
+            throw new BadCredentialsException();
         }
     }
 
     @PostMapping("/api/id/signup")
-    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws BadCredentials {
+    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNUP request " + s);
         userService.signup(s);
         SigninRequest req = new SigninRequest();
@@ -62,7 +61,7 @@ public class WebServiceID {
     }
 
     @PostMapping("/api/id/signout")
-    public Object signout() throws BadCredentials {
+    public Object signout() throws BadCredentialsException {
         System.out.println("ID : SIGNOUT REQUEST " );
         // clear the authentication in the session-based context
         SecurityContextHolder.getContext().setAuthentication(null);

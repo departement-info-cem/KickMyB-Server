@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 // TODO Va intercepter toutes les exceptions et les transformer selon la méthode en réponse http
 
 @ControllerAdvice
-public class RESTExceptionHandler
+public class ConfigExceptionHandling
   extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { Exception.class })

@@ -1,7 +1,5 @@
 package org.kickmyb.server.model;
 
-import org.kickmyb.server.AttributeEncryptor;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

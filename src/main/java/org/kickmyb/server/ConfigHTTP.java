@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 // Composant scanné et intégrer via Spring
 @Component
-public class ServerPortCustomizer
+public class ConfigHTTP
         implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
     @Override

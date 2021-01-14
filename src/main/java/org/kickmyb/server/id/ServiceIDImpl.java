@@ -31,12 +31,12 @@ public class ServiceIDImpl implements ServiceID {
     }
 
     @Override
-    public void signup(SignupRequest req) throws BadCredentials {
+    public void signup(SignupRequest req) throws BadCredentialsException {
         // TODO validate username and password length and/or special characters
         String username = req.username.toLowerCase().trim();
         try{
             userRepository.findByUsername(username).get();
-            throw new BadCredentials();
+            throw new BadCredentialsException();
         } catch (NoSuchElementException e) {
             MUser p = new MUser();
             p.username = 			username;

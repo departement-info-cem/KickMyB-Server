@@ -18,7 +18,7 @@ import java.util.Random;
 
 @Component
 @Transactional
-public class ServiceWithDB implements Service{
+public class ServiceCoreImpl implements ServiceCore {
 
     @Autowired
     MUserRepository repoUser;
