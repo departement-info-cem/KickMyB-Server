@@ -1,58 +1,86 @@
 package org.kickmyb.server.tasks;
 
-import org.kickmyb.server.model.MTask;
-import org.kickmyb.server.model.MUser;
-import org.kickmyb.server.model.MEventRepository;
-import org.kickmyb.server.model.MTaskRepository;
-import org.kickmyb.server.model.MUserRepository;
-import org.kickmyb.transfer.AddTaskRequest;
-import org.kickmyb.transfer.HomeItemResponse;
-import org.kickmyb.transfer.TaskDetailResponse;
+import org.joda.time.DateTime;
+import org.kickmyb.server.model.*;
+import org.kickmyb.transfer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Component
 @Transactional
 public class ServiceCoreImpl implements ServiceCore {
 
-    @Autowired
-    MUserRepository repoUser;
-    @Autowired
-    MTaskRepository repo;
-    @Autowired
-    MEventRepository repoBabyEvent;
+    @Autowired MUserRepository repoUser;
+    @Autowired MTaskRepository repo;
+    @Autowired MProgressEventRepository repoProgressEvent;
+
+    private int percentage(Date start, Date current, Date end){
+        long total = end.getTime() - start.getTime();
+        long spent = current.getTime() - start.getTime();
+        double percentage =  100.0 * spent / total;
+        return (int) percentage;
+    }
 
     @Override
     public TaskDetailResponse detail(Long id, MUser user) {
-        MTask baby = user.tasks.stream().filter(elt -> elt.id == id).findFirst().get();
+        MTask element = user.tasks.stream().filter(elt -> elt.id == id).findFirst().get();
         TaskDetailResponse response = new TaskDetailResponse();
-        response.name = baby.name;
-        response.id = baby.id;
+        response.name = element.name;
+        response.id = element.id;
+        // calcul le temps écoulé en pourcentage
+        response.percentageTimeSpent = percentage(element.creationDate, new Date(), element.deadline);
+        // aller chercher le dernier événement de progrès
+        response.percentageDone = percentageDone(element);
+        response.events = new ArrayList<>();
+        for (MProgressEvent e : element.events) {
+            ProgressEvent transfer = new ProgressEvent();
+            transfer.value = e.resultPercentage;
+            transfer.timestamp = e.timestamp;
+            response.events.add(transfer);
+        }
         return response;
     }
 
-    // TODO oublier de valider le nom du bébé pour une injection javascript
-    // TODO faire une page jsp qui affiche les gardiens puis les enfants par gardiens
-    // TODO exploser la liste avec injection JS
+    // TODO oublier de valider pour une injection javascript
+    // TODO Que se passe-t-il si ce n'est pas transactionnel
     @Override
     public void addOne(AddTaskRequest req, MUser user) throws Existing {
-        // TODO validation
+        // valider que c'est non vide
         if (req.name.trim().length() == 0) throw new IllegalArgumentException();
-        // TODO validate no baby with same name
+        // valider si le nom existe déjà
         for (MTask b : user.tasks) {
-            if (b.name.toLowerCase().equals(req.name.toLowerCase())) throw new Existing();
+            if (b.name.equalsIgnoreCase(req.name)) throw new Existing();
         }
-        // All is good
-        MTask baby = new MTask();
-        baby.name = req.name;
-        repo.save(baby);
-        user.tasks.add(baby);
+        // tout est beau, on crée
+        MTask t = new MTask();
+        t.name = req.name;
+        t.creationDate = DateTime.now().toDate();
+        if (req.deadLine == null) {
+            t.deadline = DateTime.now().plusDays(7).toDate();
+        } else {
+            t.deadline = req.deadLine;
+        }
+        repo.save(t);
+        user.tasks.add(t);
         repoUser.save(user);
+    }
+
+    @Override
+    public void updateProgress(long taskID, int value) {
+        MTask element = repo.findById(taskID).get();
+        // TODO validate value is between 0 and 100
+        MProgressEvent pe= new MProgressEvent();
+        pe.resultPercentage = value;
+        pe.completed = value ==100;
+        pe.timestamp = DateTime.now().toDate();
+        repoProgressEvent.save(pe);
+        element.events.add(pe);
+        repo.save(element);
     }
 
     @Override
@@ -62,11 +90,16 @@ public class ServiceCoreImpl implements ServiceCore {
         for (MTask t : user.tasks) {
             HomeItemResponse r = new HomeItemResponse();
             r.id = t.id;
-            r.percentageDone = 20 + new Random().nextInt(50);
+            r.percentageDone = percentageDone(t);
+            r.percentageTimeSpent = percentage(t.creationDate, new Date(), t.deadline);
             r.name = t.name;
             res.add(r);
         }
         return res;
+    }
+
+    private int percentageDone(MTask t) {
+        return t.events.isEmpty()? 0 : t.events.get(t.events.size()-1).resultPercentage;
     }
 
     // TODO try to see how to make an injection attack example by directly exposing data from DB

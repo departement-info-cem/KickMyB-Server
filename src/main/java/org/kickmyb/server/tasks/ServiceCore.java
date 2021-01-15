@@ -11,6 +11,7 @@ public interface ServiceCore {
     // entity handling
     TaskDetailResponse detail(Long id, MUser user);
     void addOne(AddTaskRequest req, MUser user) throws Existing;
+    void updateProgress(long taskID, int value);
     List<HomeItemResponse> home(Long userID);
 
     // Potential web demo for JS injection

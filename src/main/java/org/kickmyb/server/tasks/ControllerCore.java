@@ -30,6 +30,16 @@ public class ControllerCore {
 		return "";
 	}
 
+	@GetMapping("/api/progress/{taskID}/{value}")
+	public @ResponseBody String updateProgress(
+			@PathVariable long taskID,
+			@PathVariable int value)  {
+		System.out.println("Progress for task : "+taskID + " @" + value);
+		MUser user = currentUser();
+		serviceCore.updateProgress(taskID,  value);
+		return "";
+	}
+
 	@GetMapping("/api/home")
 	public @ResponseBody List<HomeItemResponse> home() {
 		System.out.println("WS SOCIAL : HOME REQUEST  with cookie" );
@@ -37,6 +47,17 @@ public class ControllerCore {
 		return serviceCore.home(user.id);
 	}
 
+    @GetMapping("/api/detail/{id}")
+    public @ResponseBody TaskDetailResponse detail(@PathVariable long id) {
+		System.out.println("WS SOCIAL : DETAIL  with cookie " );
+		MUser user = currentUser();
+		return serviceCore.detail(id, user);
+    }
+
+	/**
+	 * Créer une page qui affiche tous les utilisateurs et les titres des tâches.
+	 * @return
+	 */
 	@GetMapping("/index")
 	public @ResponseBody String htmlIndex() {
 		try {
@@ -48,16 +69,11 @@ public class ControllerCore {
 		return serviceCore.index();
 	}
 
-    @GetMapping("/api/detail/{id}")
-    public @ResponseBody TaskDetailResponse detail(@PathVariable long id) {
-		System.out.println("WS SOCIAL : DETAIL  with cookie " );
-		MUser user = currentUser();
-		return serviceCore.detail(id, user);
-    }
 
 	/**
-	 * Gets the Principal from the in RAM HttpSession looked up from the JSESSIONID sent via cookie
-	 * Goes to database
+	 * Accède au Principal stocké dans la mémoire vivre (HttpSession)
+	 * La session de l'utilisateur est accédée grâce au  JSESSIONID qui était dans lq requête dans un cookie
+	 * Ensuite on va à la base de données pour récupérer l'objet user complet.
 	 * @return
 	 */
 	private MUser currentUser() {

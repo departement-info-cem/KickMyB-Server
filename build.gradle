@@ -28,12 +28,10 @@ dependencies {
 	implementation group: 'com.google.guava', name: 'guava', version: '30.0-jre'
 	implementation group: 'joda-time', name: 'joda-time', version: '2.10.8'
 
-	// implementation 'org.kickmyb:common:1.0'
-	implementation 'com.github.departement-info-cem:KickMyB-Library:4f8eb18a99af2c57e23ab595c8e650ca721fae12'
+	implementation 'com.github.departement-info-cem:KickMyB-Library:42f1f4549a6caeb960077f074015855408e77221'
 
 	implementation 'org.imgscalr:imgscalr-lib:4.2'
 
-	runtimeOnly 'org.apache.derby:derby'
 	runtimeOnly	'com.h2database:h2:+'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
