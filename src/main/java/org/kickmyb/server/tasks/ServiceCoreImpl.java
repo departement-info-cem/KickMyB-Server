@@ -36,6 +36,7 @@ public class ServiceCoreImpl implements ServiceCore {
         response.percentageTimeSpent = percentage(element.creationDate, new Date(), element.deadline);
         // aller chercher le dernier événement de progrès
         response.percentageDone = percentageDone(element);
+        response.deadLine = element.deadline;
         response.events = new ArrayList<>();
         for (MProgressEvent e : element.events) {
             ProgressEvent transfer = new ProgressEvent();
@@ -91,6 +92,7 @@ public class ServiceCoreImpl implements ServiceCore {
             HomeItemResponse r = new HomeItemResponse();
             r.id = t.id;
             r.percentageDone = percentageDone(t);
+            r.deadline = t.deadline;
             r.percentageTimeSpent = percentage(t.creationDate, new Date(), t.deadline);
             r.name = t.name;
             res.add(r);
