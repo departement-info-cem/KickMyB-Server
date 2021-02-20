@@ -1,4 +1,4 @@
-package org.kickmyb.server.tasks;
+package org.kickmyb.server.task;
 
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.transfer.AddTaskRequest;
@@ -16,17 +16,17 @@ import java.util.List;
 // Can be mixed with Spring Security security
 // And can used Autowired Services too
 @Controller
-public class ControllerCore {
+public class ControllerTask {
 
 	// explication de Autowired : Spring trouve automatiquement la classe annotée
 	// @Component qui implémente l'interface
-	@Autowired 		private ServiceCore serviceCore;
+	@Autowired 		private ServiceTask serviceTask;
 
 	@PostMapping("/api/add")
 	public @ResponseBody String addOne(@RequestBody AddTaskRequest request) throws Existing {
-		System.out.println("WS SOCIAL : add baby");
+		System.out.println("KICKB SERVER : Add a task : " + request.name);
 		MUser user = currentUser();
-		serviceCore.addOne(request, user);
+		serviceTask.addOne(request, user);
 		return "";
 	}
 
@@ -34,24 +34,24 @@ public class ControllerCore {
 	public @ResponseBody String updateProgress(
 			@PathVariable long taskID,
 			@PathVariable int value)  {
-		System.out.println("Progress for task : "+taskID + " @" + value);
+		System.out.println("KICKB SERVER : Progress for task : "+taskID + " @" + value);
 		MUser user = currentUser();
-		serviceCore.updateProgress(taskID,  value);
+		serviceTask.updateProgress(taskID,  value);
 		return "";
 	}
 
 	@GetMapping("/api/home")
 	public @ResponseBody List<HomeItemResponse> home() {
-		System.out.println("WS SOCIAL : HOME REQUEST  with cookie" );
+		System.out.println("KICKB SERVER : Task list  with cookie" );
 		MUser user = currentUser();
-		return serviceCore.home(user.id);
+		return serviceTask.home(user.id);
 	}
 
     @GetMapping("/api/detail/{id}")
     public @ResponseBody TaskDetailResponse detail(@PathVariable long id) {
-		System.out.println("WS SOCIAL : DETAIL  with cookie " );
+		System.out.println("KICKB SERVER : Detail  with cookie " );
 		MUser user = currentUser();
-		return serviceCore.detail(id, user);
+		return serviceTask.detail(id, user);
     }
 
 	/**
@@ -61,14 +61,23 @@ public class ControllerCore {
 	@GetMapping("/index")
 	public @ResponseBody String htmlIndex() {
 		try {
-			UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			System.out.println("WS SOCIAL : INDEX  with cookie ::: " + ud.getUsername());
+			//TODO : Crash
+			//UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			//System.out.println("KICKB SERVER : Index with cookie ::: " + ud.getUsername());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return serviceCore.index();
+		return serviceTask.index();
 	}
 
+	/**
+	 * Tester votre serveur
+	 * @return
+	 */
+	@GetMapping("/test")
+	public @ResponseBody String test() {
+		return "SALUT";
+	}
 
 	/**
 	 * Accède au Principal stocké dans la mémoire vivre (HttpSession)
@@ -78,8 +87,9 @@ public class ControllerCore {
 	 */
 	private MUser currentUser() {
 		UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		MUser user = serviceCore.userFromUsername(ud.getUsername());
+		MUser user = serviceTask.userFromUsername(ud.getUsername());
 		return user;
 	}
+
 
 }

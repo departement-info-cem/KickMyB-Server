@@ -1,6 +1,6 @@
 package org.kickmyb.server;
 
-import org.kickmyb.server.id.ServiceID;
+import org.kickmyb.server.account.ServiceAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,7 +59,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ConfigSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    ServiceID userService;
+    ServiceAccount userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

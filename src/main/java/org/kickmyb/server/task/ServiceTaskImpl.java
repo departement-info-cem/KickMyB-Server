@@ -1,4 +1,4 @@
-package org.kickmyb.server.tasks;
+package org.kickmyb.server.task;
 
 import org.joda.time.DateTime;
 import org.kickmyb.server.model.*;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @Transactional
-public class ServiceCoreImpl implements ServiceCore {
+public class ServiceTaskImpl implements ServiceTask {
 
     @Autowired MUserRepository repoUser;
     @Autowired MTaskRepository repo;

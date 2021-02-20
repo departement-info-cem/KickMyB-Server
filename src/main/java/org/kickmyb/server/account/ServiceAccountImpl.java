@@ -1,4 +1,4 @@
-package org.kickmyb.server.id;
+package org.kickmyb.server.account;
 
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.server.model.MUserRepository;
@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 
 @Component
 @Transactional
-public class ServiceIDImpl implements ServiceID {
+public class ServiceAccountImpl implements ServiceAccount {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private MUserRepository userRepository;

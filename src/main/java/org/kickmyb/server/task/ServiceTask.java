@@ -1,4 +1,4 @@
-package org.kickmyb.server.tasks;
+package org.kickmyb.server.task;
 
 import org.kickmyb.server.model.MUser;
 import org.kickmyb.transfer.*;
@@ -6,7 +6,7 @@ import org.kickmyb.transfer.*;
 
 import java.util.List;
 
-public interface ServiceCore {
+public interface ServiceTask {
 
     // entity handling
     TaskDetailResponse detail(Long id, MUser user);

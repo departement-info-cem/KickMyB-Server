@@ -1,4 +1,4 @@
-package org.kickmyb.server.id;
+package org.kickmyb.server.account;
 
 import com.google.gson.Gson;
 
@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 //@Path("/id")
 @Controller
-public class ControllerID {
+public class ControllerAccount {
 
     // Spring security requires the AuthenticationManager to inject the security Context in the session
     @Autowired      private AuthenticationManager authManager;
-    @Autowired      private ServiceID userService;
+    @Autowired      private ServiceAccount userService;
 
     @Autowired      private Gson gson;
 

@@ -1,4 +1,4 @@
-package org.kickmyb.server.tasks;
+package org.kickmyb.server.task;
 
 public class Existing extends Exception {
 }
