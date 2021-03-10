@@ -61,10 +61,10 @@ public class ControllerAccount {
     }
 
     @PostMapping("/api/id/signout")
-    public Object signout() throws BadCredentialsException {
+    public @ResponseBody String signout() throws BadCredentialsException {
         System.out.println("ID : SIGNOUT REQUEST " );
         // clear the authentication in the session-based context
         SecurityContextHolder.getContext().setAuthentication(null);
-        return new Object();
+        return "";
     }
 }
