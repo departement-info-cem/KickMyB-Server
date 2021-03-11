@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass(Gson.class)
-public class ConfigurationJSON {
+public class ConfigJSON {
 
     @Bean
     public Gson gson() {
