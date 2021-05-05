@@ -52,12 +52,17 @@ public class ControllerAccount {
     @PostMapping("/api/id/signup")
     public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNUP request " + s);
-        userService.signup(s);
-        SigninRequest req = new SigninRequest();
-        req.username = s.username;
-        req.password = s.password;
-        //return ResponseEntity.status(HttpStatus.OK).body("");
-        return signin(req);
+        try {
+            userService.signup(s);
+            SigninRequest req = new SigninRequest();
+            req.username = s.username;
+            req.password = s.password;
+            //return ResponseEntity.status(HttpStatus.OK).body("");
+            return signin(req);
+        } catch (Exception e) {
+            throw new BadCredentialsException();
+        }
+
     }
 
     @PostMapping("/api/id/signout")

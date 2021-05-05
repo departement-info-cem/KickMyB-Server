@@ -5,6 +5,7 @@ import org.kickmyb.server.model.MUserRepository;
 
 import org.kickmyb.transfer.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,17 +32,12 @@ public class ServiceAccountImpl implements ServiceAccount {
     }
 
     @Override
-    public void signup(SignupRequest req) throws BadCredentialsException {
+    public void signup(SignupRequest req) {
         // TODO validate username and password length and/or special characters
         String username = req.username.toLowerCase().trim();
-        try{
-            userRepository.findByUsername(username).get();
-            throw new BadCredentialsException();
-        } catch (NoSuchElementException e) {
-            MUser p = new MUser();
-            p.username = 			username;
-            p.password = 		    passwordEncoder.encode(req.password);
-            userRepository.save(p);
-        }
+        MUser p = new MUser();
+        p.username = username;
+        p.password = passwordEncoder.encode(req.password);
+        userRepository.save(p);
     }
 }

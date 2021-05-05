@@ -12,12 +12,16 @@ import java.util.List;
 public class MUser {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id     public Long id;
-    @Basic  public String username;
-    @Basic  public String password;
+    @Id
+    public Long id;
+
+    @Column(unique = true)
+    public String username;
+
+    @Basic
+    public String password;
 
     // ORM style storage.
     @OneToMany(fetch=FetchType.EAGER)
     public List<MTask> tasks = new ArrayList<>();
-
 }
