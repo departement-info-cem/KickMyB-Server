@@ -60,13 +60,6 @@ public class ControllerTask {
 	 */
 	@GetMapping("/index")
 	public @ResponseBody String htmlIndex() {
-		try {
-			//TODO : Crash
-			//UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			//System.out.println("KICKB SERVER : Index with cookie ::: " + ud.getUsername());
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 		return serviceTask.index();
 	}
 
