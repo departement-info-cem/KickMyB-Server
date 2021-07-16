@@ -8,15 +8,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-// Va intercepter toutes les exceptions et les transformer selon la méthode en réponse http
+// TODO Va intercepter toutes les exceptions et les transformer selon la méthode en réponse http
 
 @ControllerAdvice
-public class RESTExceptionHandler
+public class ConfigExceptionHandling
   extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { Exception.class })
     protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
+        // TODO non nécessaire mais permet de voir le stack de l'exception dans le log du serveur
+        // utile pour déboguer
         ex.printStackTrace();
+        // TODO on prend le nom court de l'exception comme corps de la réponse HTTP 400 comme code
         String bodyOfResponse = ex.getClass().getSimpleName();
         return handleExceptionInternal(ex, bodyOfResponse, 
           new HttpHeaders(), HttpStatus.BAD_REQUEST, request);

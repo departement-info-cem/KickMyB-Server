@@ -1,7 +1,4 @@
-package org.kickmyb.server.id;
-
-import org.kickmyb.server.model.MUser;
-import org.kickmyb.server.model.MUserRepository;
+package org.kickmyb.server.account;
 
 import org.kickmyb.transfer.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 @Component
 @Transactional
-public class ServiceIDImpl implements ServiceID {
+public class ServiceAccountImpl implements ServiceAccount {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private MUserRepository userRepository;
@@ -31,17 +27,12 @@ public class ServiceIDImpl implements ServiceID {
     }
 
     @Override
-    public void signup(SignupRequest req) throws BadCredentials {
+    public void signup(SignupRequest req) {
         // TODO validate username and password length and/or special characters
         String username = req.username.toLowerCase().trim();
-        try{
-            userRepository.findByUsername(username).get();
-            throw new BadCredentials();
-        } catch (NoSuchElementException e) {
-            MUser p = new MUser();
-            p.username = 			username;
-            p.password = 		    passwordEncoder.encode(req.password);
-            userRepository.save(p);
-        }
+        MUser p = new MUser();
+        p.username = username;
+        p.password = passwordEncoder.encode(req.password);
+        userRepository.save(p);
     }
 }

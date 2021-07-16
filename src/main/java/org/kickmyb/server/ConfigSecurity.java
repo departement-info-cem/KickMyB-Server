@@ -1,6 +1,6 @@
 package org.kickmyb.server;
 
-import org.kickmyb.server.id.ServiceID;
+import org.kickmyb.server.account.ServiceAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,10 +56,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // TODO various authentication session, token, JWT, authentication provider OAuth
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class ConfigSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    ServiceID userService;
+    ServiceAccount userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -68,13 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()       // for a web API, disable CSRF token injected on response > request
                 .cors().and()
                 .authorizeRequests()
+                // TODO quand on s'inscrit ou qu'on se connecte, on est pas encore dans le système
             .antMatchers("/api/id/**").permitAll()
+                // TODO tous les autres appels à API requierent un utilisateur authentifié
             .antMatchers("/api/**").authenticated()
         ;
     }
 
-    // TODO change this to use a database storage for UserDetails
-    //@Autowired
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);
@@ -85,6 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    // TODO changer le passwordEncoder et regarder ce que ça change en base de données
     @Bean public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
     //@Bean public PasswordEncoder passwordEncoder() {return NoOpPasswordEncoder.getInstance();}
 }

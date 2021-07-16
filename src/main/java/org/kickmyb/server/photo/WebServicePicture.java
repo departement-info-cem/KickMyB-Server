@@ -1,6 +1,5 @@
 package org.kickmyb.server.photo;
 
-import org.kickmyb.server.model.MPicture;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

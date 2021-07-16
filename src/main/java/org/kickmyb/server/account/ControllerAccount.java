@@ -1,4 +1,4 @@
-package org.kickmyb.server.id;
+package org.kickmyb.server.account;
 
 import com.google.gson.Gson;
 
@@ -8,7 +8,6 @@ import org.kickmyb.transfer.SigninResponse;
 import org.kickmyb.transfer.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,16 +22,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 //@Path("/id")
 @Controller
-public class WebServiceID {
+public class ControllerAccount {
 
     // Spring security requires the AuthenticationManager to inject the security Context in the session
     @Autowired      private AuthenticationManager authManager;
-    @Autowired      private ServiceID userService;
+    @Autowired      private ServiceAccount userService;
 
     @Autowired      private Gson gson;
 
     @PostMapping("/api/id/signin")
-    public @ResponseBody SigninResponse signin(@RequestBody  SigninRequest s) throws BadCredentials {
+    public @ResponseBody SigninResponse signin(@RequestBody  SigninRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNIN request " + s);
         s.username = s.username.trim().toLowerCase();
         try {
@@ -45,27 +44,32 @@ public class WebServiceID {
             SigninResponse resp = new SigninResponse();
             resp.username = s.username;
             return resp;
-        } catch (BadCredentialsException bce) {
-            throw new BadCredentials();
+        } catch (org.springframework.security.authentication.BadCredentialsException bce) {
+            throw new BadCredentialsException();
         }
     }
 
     @PostMapping("/api/id/signup")
-    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws BadCredentials {
+    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNUP request " + s);
-        userService.signup(s);
-        SigninRequest req = new SigninRequest();
-        req.username = s.username;
-        req.password = s.password;
-        //return ResponseEntity.status(HttpStatus.OK).body("");
-        return signin(req);
+        try {
+            userService.signup(s);
+            SigninRequest req = new SigninRequest();
+            req.username = s.username;
+            req.password = s.password;
+            //return ResponseEntity.status(HttpStatus.OK).body("");
+            return signin(req);
+        } catch (Exception e) {
+            throw new BadCredentialsException();
+        }
+
     }
 
     @PostMapping("/api/id/signout")
-    public Object signout() throws BadCredentials {
+    public @ResponseBody String signout() throws BadCredentialsException {
         System.out.println("ID : SIGNOUT REQUEST " );
         // clear the authentication in the session-based context
         SecurityContextHolder.getContext().setAuthentication(null);
-        return new Object();
+        return "";
     }
 }

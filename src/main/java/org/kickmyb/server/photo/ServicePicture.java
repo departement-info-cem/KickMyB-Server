@@ -1,9 +1,7 @@
 package org.kickmyb.server.photo;
 
-import org.kickmyb.server.model.MTask;
-import org.kickmyb.server.model.MPicture;
-import org.kickmyb.server.model.MPictureRepository;
-import org.kickmyb.server.model.MTaskRepository;
+import org.kickmyb.server.task.MTask;
+import org.kickmyb.server.task.MTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

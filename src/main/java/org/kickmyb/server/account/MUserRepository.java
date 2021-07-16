@@ -1,4 +1,4 @@
-package org.kickmyb.server.model;
+package org.kickmyb.server.account;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

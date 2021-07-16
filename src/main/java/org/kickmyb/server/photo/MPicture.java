@@ -1,4 +1,6 @@
-package org.kickmyb.server.model;
+package org.kickmyb.server.photo;
+
+import org.kickmyb.server.task.MTask;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package org.kickmyb.server;
+package org.kickmyb.server.task;
 
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,13 @@ import java.util.Base64;
 public class AttributeEncryptor implements AttributeConverter<String, String> {
 
     private static final String AES = "AES";
-    private static final String SECRET = "secret-key-12345"; // TODO à déplacer dans properties
+
+    /**
+     * Mais la clé d'encryption et dans le code, tous les développeurs y ont accès, pas très secure
+     * On pourrait la cacher dans un fichier de propriétés ou une variable système qui serait
+     * différent sur les machines de dév et le serveur de prod... avec moins de personnes qui ont accès
+     */
+    private static final String SECRET = "secret-key-12345";
 
     private final Key key;
     private final Cipher cipher;
