@@ -19,22 +19,29 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @Controller     // indique à Spring qu'il y a des points d'entrée dans la classe
-public class WebServicePicture {
+public class ControllerPhoto {
 
-    @Autowired private ServicePicture servicePicture;
+    @Autowired private ServicePhoto servicePhoto;
 
     @PostMapping("/file")
     public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("babyID") Long babyID) throws IOException {
         System.out.println("PHOTO : upload request " + file.getContentType());
-        servicePicture.store(file, babyID);
+        servicePhoto.store(file, babyID);
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
+
+    // TODO delete
     @GetMapping("/file/baby/{id}")
-    public ResponseEntity<byte[]> babyPhoto(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
+    public ResponseEntity<byte[]> compat(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
+        return taskPhoto(id, maxWidth);
+    }
+
+    @GetMapping("/file/task/{id}")
+    public ResponseEntity<byte[]> taskPhoto(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
         // TODO add resizing with optional query params
         System.out.println("PHOTO : download request " + id + " width " + maxWidth);
-        MPicture pic = servicePicture.getFileForBaby(id);
+        MPhoto pic = servicePhoto.getFileForTask(id);
 
         // TODO explain resizing logic
         if (maxWidth == null) { // no resizing

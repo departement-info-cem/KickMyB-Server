@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MPictureRepository extends PagingAndSortingRepository<MPicture, Long> {
-    Optional<MPicture> findByTask(MTask baby);
+public interface MPhotoRepository extends PagingAndSortingRepository<MPhoto, Long> {
+    Optional<MPhoto> findByTask(MTask baby);
 }

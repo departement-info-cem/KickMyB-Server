@@ -5,7 +5,7 @@ import org.kickmyb.server.task.MTask;
 import javax.persistence.*;
 
 @Entity
-public class MPicture {
+public class MPhoto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
