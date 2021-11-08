@@ -3,6 +3,7 @@ package org.kickmyb.server.account;
 import com.google.gson.Gson;
 
 
+import org.kickmyb.server.ConfigHTTP;
 import org.kickmyb.transfer.SigninRequest;
 import org.kickmyb.transfer.SigninResponse;
 import org.kickmyb.transfer.SignupRequest;
@@ -33,6 +34,7 @@ public class ControllerAccount {
     @PostMapping("/api/id/signin")
     public @ResponseBody SigninResponse signin(@RequestBody  SigninRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNIN request " + s);
+        ConfigHTTP.attenteArticifielle();
         s.username = s.username.trim().toLowerCase();
         try {
             Authentication auth = new UsernamePasswordAuthenticationToken(s.username, s.password);
@@ -52,6 +54,7 @@ public class ControllerAccount {
     @PostMapping("/api/id/signup")
     public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNUP request " + s);
+        ConfigHTTP.attenteArticifielle();
         try {
             userService.signup(s);
             SigninRequest req = new SigninRequest();
@@ -68,6 +71,7 @@ public class ControllerAccount {
     @PostMapping("/api/id/signout")
     public @ResponseBody String signout() throws BadCredentialsException {
         System.out.println("ID : SIGNOUT REQUEST " );
+        ConfigHTTP.attenteArticifielle();
         // clear the authentication in the session-based context
         SecurityContextHolder.getContext().setAuthentication(null);
         return "";

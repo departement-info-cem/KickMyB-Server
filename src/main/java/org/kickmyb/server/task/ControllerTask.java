@@ -1,5 +1,6 @@
 package org.kickmyb.server.task;
 
+import org.kickmyb.server.ConfigHTTP;
 import org.kickmyb.server.account.MUser;
 import org.kickmyb.transfer.AddTaskRequest;
 import org.kickmyb.transfer.HomeItemResponse;
@@ -25,6 +26,7 @@ public class ControllerTask {
 	@PostMapping("/api/add")
 	public @ResponseBody String addOne(@RequestBody AddTaskRequest request) throws Existing {
 		System.out.println("KICKB SERVER : Add a task : " + request.name);
+		ConfigHTTP.attenteArticifielle();
 		MUser user = currentUser();
 		serviceTask.addOne(request, user);
 		return "";
@@ -35,6 +37,7 @@ public class ControllerTask {
 			@PathVariable long taskID,
 			@PathVariable int value)  {
 		System.out.println("KICKB SERVER : Progress for task : "+taskID + " @" + value);
+		ConfigHTTP.attenteArticifielle();
 		MUser user = currentUser();
 		serviceTask.updateProgress(taskID,  value);
 		return "";
@@ -43,6 +46,7 @@ public class ControllerTask {
 	@GetMapping("/api/home")
 	public @ResponseBody List<HomeItemResponse> home() {
 		System.out.println("KICKB SERVER : Task list  with cookie" );
+		ConfigHTTP.attenteArticifielle();
 		MUser user = currentUser();
 		return serviceTask.home(user.id);
 	}
@@ -50,6 +54,7 @@ public class ControllerTask {
     @GetMapping("/api/detail/{id}")
     public @ResponseBody TaskDetailResponse detail(@PathVariable long id) {
 		System.out.println("KICKB SERVER : Detail  with cookie " );
+		ConfigHTTP.attenteArticifielle();
 		MUser user = currentUser();
 		return serviceTask.detail(id, user);
     }

@@ -30,6 +30,7 @@ public class ServiceAccountImpl implements ServiceAccount {
     public void signup(SignupRequest req) {
         // TODO validate username and password length and/or special characters
         String username = req.username.toLowerCase().trim();
+        // validation de l'unicité est faite au niveau de la BD voir MUser.java
         MUser p = new MUser();
         p.username = username;
         p.password = passwordEncoder.encode(req.password);

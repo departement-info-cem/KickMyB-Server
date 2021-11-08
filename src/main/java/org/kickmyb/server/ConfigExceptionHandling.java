@@ -16,9 +16,8 @@ public class ConfigExceptionHandling
 
     @ExceptionHandler(value = { Exception.class })
     protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
-        // TODO non nécessaire mais permet de voir le stack de l'exception dans le log du serveur
         // utile pour déboguer
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // TODO on prend le nom court de l'exception comme corps de la réponse HTTP 400 comme code
         String bodyOfResponse = ex.getClass().getSimpleName();
         return handleExceptionInternal(ex, bodyOfResponse, 

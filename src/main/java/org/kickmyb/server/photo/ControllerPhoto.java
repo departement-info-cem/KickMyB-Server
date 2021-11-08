@@ -1,6 +1,7 @@
 package org.kickmyb.server.photo;
 
 import org.imgscalr.Scalr;
+import org.kickmyb.server.ConfigHTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +27,7 @@ public class ControllerPhoto {
     @PostMapping("/file")
     public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("babyID") Long babyID) throws IOException {
         System.out.println("PHOTO : upload request " + file.getContentType());
+        ConfigHTTP.attenteArticifielle();
         servicePhoto.store(file, babyID);
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
@@ -39,10 +41,9 @@ public class ControllerPhoto {
 
     @GetMapping("/file/task/{id}")
     public ResponseEntity<byte[]> taskPhoto(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
-        // TODO add resizing with optional query params
         System.out.println("PHOTO : download request " + id + " width " + maxWidth);
+        ConfigHTTP.attenteArticifielle();
         MPhoto pic = servicePhoto.getFileForTask(id);
-
         // TODO explain resizing logic
         if (maxWidth == null) { // no resizing
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(pic.blob);
