@@ -1,11 +1,7 @@
 package org.kickmyb.server.account;
 
-import org.kickmyb.server.model.MUser;
-import org.kickmyb.server.model.MUserRepository;
-
 import org.kickmyb.transfer.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 @Component
 @Transactional
@@ -35,6 +30,7 @@ public class ServiceAccountImpl implements ServiceAccount {
     public void signup(SignupRequest req) {
         // TODO validate username and password length and/or special characters
         String username = req.username.toLowerCase().trim();
+        // validation de l'unicité est faite au niveau de la BD voir MUser.java
         MUser p = new MUser();
         p.username = username;
         p.password = passwordEncoder.encode(req.password);

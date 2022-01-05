@@ -3,6 +3,11 @@
 .gradle
 /build/
 
+.DS_Store
+**/.DS_Store
+
+derby.log
+
 **.db
 # Ignore Gradle GUI config
 gradle-app.setting

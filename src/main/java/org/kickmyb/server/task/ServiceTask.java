@@ -1,6 +1,6 @@
 package org.kickmyb.server.task;
 
-import org.kickmyb.server.model.MUser;
+import org.kickmyb.server.account.MUser;
 import org.kickmyb.transfer.*;
 
 

@@ -1,7 +1,8 @@
 package org.kickmyb.server.task;
 
 import org.joda.time.DateTime;
-import org.kickmyb.server.model.*;
+import org.kickmyb.server.account.MUser;
+import org.kickmyb.server.account.MUserRepository;
 import org.kickmyb.transfer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,8 @@ import java.util.List;
 @Transactional
 public class ServiceTaskImpl implements ServiceTask {
 
-    @Autowired MUserRepository repoUser;
+    @Autowired
+    MUserRepository repoUser;
     @Autowired MTaskRepository repo;
     @Autowired MProgressEventRepository repoProgressEvent;
 

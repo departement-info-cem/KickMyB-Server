@@ -1,4 +1,4 @@
-package org.kickmyb.server.model;
+package org.kickmyb.server.task;
 
 
 import javax.persistence.Entity;

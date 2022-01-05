@@ -1,4 +1,4 @@
-package org.kickmyb.server.model;
+package org.kickmyb.server.task;
 
 import org.springframework.stereotype.Component;
 
