@@ -2,6 +2,7 @@ package org.kickmyb.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.kickmyb.CustomGson;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +17,7 @@ public class ConfigJSON {
 
     @Bean
     public Gson gson() {
-        String format = "MMM d, yyyy hh:mm:ss a";
-        Gson result = new GsonBuilder().setDateFormat(format).create();
+        Gson result = new GsonBuilder().setDateFormat(CustomGson.dateFormat).create();
         return result;
     }
 

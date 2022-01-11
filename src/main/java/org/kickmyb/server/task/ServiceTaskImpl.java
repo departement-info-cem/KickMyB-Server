@@ -38,7 +38,7 @@ public class ServiceTaskImpl implements ServiceTask {
         response.percentageTimeSpent = percentage(element.creationDate, new Date(), element.deadline);
         // aller chercher le dernier événement de progrès
         response.percentageDone = percentageDone(element);
-        response.deadLine = element.deadline;
+        response.deadline = element.deadline;
         response.events = new ArrayList<>();
         for (MProgressEvent e : element.events) {
             ProgressEvent transfer = new ProgressEvent();
@@ -63,10 +63,10 @@ public class ServiceTaskImpl implements ServiceTask {
         MTask t = new MTask();
         t.name = req.name;
         t.creationDate = DateTime.now().toDate();
-        if (req.deadLine == null) {
+        if (req.deadline == null) {
             t.deadline = DateTime.now().plusDays(7).toDate();
         } else {
-            t.deadline = req.deadLine;
+            t.deadline = req.deadline;
         }
         repo.save(t);
         user.tasks.add(t);
