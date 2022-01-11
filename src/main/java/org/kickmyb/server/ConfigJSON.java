@@ -17,8 +17,7 @@ public class ConfigJSON {
 
     @Bean
     public Gson gson() {
-        Gson result = new GsonBuilder().setDateFormat(CustomGson.dateFormat).create();
-        return result;
+        return CustomGson.getIt();
     }
 
 }
