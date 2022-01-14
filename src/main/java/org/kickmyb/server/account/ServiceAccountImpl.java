@@ -29,6 +29,7 @@ public class ServiceAccountImpl implements ServiceAccount {
 
     // https://stackoverflow.com/questions/36498327/catch-dataintegrityviolationexception-in-transactional-service-method
     @Override
+    @Transactional(rollbackFor = UsernameAlreadyTaken.class)
     public void signup(SignupRequest req) throws UsernameTooShort, PasswordTooShort, UsernameAlreadyTaken {
         String username = req.username.toLowerCase().trim();
         if (username.length() < 2) throw new UsernameTooShort();
