@@ -52,18 +52,17 @@ public class ControllerAccount {
     }
 
     @PostMapping("/api/id/signup")
-    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws BadCredentialsException {
+    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s)
+            throws ServiceAccount.UsernameTooShort, ServiceAccount.PasswordTooShort,
+            ServiceAccount.UsernameAlreadyTaken, BadCredentialsException {
         System.out.println("ID : SIGNUP request " + s);
         ConfigHTTP.attenteArticifielle();
-        try {
-            userService.signup(s);
-            SigninRequest req = new SigninRequest();
-            req.username = s.username;
-            req.password = s.password;
-            return signin(req);
-        } catch (Exception e) {
-            throw new BadCredentialsException();
-        }
+        userService.signup(s);
+        SigninRequest req = new SigninRequest();
+        req.username = s.username;
+        req.password = s.password;
+        return signin(req);
+
 
     }
 

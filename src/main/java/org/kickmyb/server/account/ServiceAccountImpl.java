@@ -2,6 +2,7 @@ package org.kickmyb.server.account;
 
 import org.kickmyb.transfer.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 @Component
-@Transactional
 public class ServiceAccountImpl implements ServiceAccount {
 
     @Autowired private PasswordEncoder passwordEncoder;
@@ -26,14 +26,21 @@ public class ServiceAccountImpl implements ServiceAccount {
         return u;
     }
 
+
+    // https://stackoverflow.com/questions/36498327/catch-dataintegrityviolationexception-in-transactional-service-method
     @Override
-    public void signup(SignupRequest req) {
-        // TODO validate username and password length and/or special characters
+    public void signup(SignupRequest req) throws UsernameTooShort, PasswordTooShort, UsernameAlreadyTaken {
         String username = req.username.toLowerCase().trim();
+        if (username.length() < 2) throw new UsernameTooShort();
+        if (req.password.length() < 4) throw new PasswordTooShort();
         // validation de l'unicité est faite au niveau de la BD voir MUser.java
-        MUser p = new MUser();
-        p.username = username;
-        p.password = passwordEncoder.encode(req.password);
-        userRepository.save(p);
+        try {
+            MUser p = new MUser();
+            p.username = username;
+            p.password = passwordEncoder.encode(req.password);
+            userRepository.saveAndFlush(p);
+        } catch (DataIntegrityViolationException e) {
+            throw new UsernameAlreadyTaken();
+        }
     }
 }

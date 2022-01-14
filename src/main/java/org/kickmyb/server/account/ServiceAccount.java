@@ -6,6 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 // extends UserDetailsService which is one of the Spring Security entry points
 public interface ServiceAccount extends UserDetailsService {
 
-    void signup(SignupRequest req) throws BadCredentialsException;
+    class UsernameTooShort extends Exception {}
+    class UsernameAlreadyTaken extends Exception {}
+    class PasswordTooShort extends Exception {}
+
+    void signup(SignupRequest req) throws BadCredentialsException, UsernameTooShort, PasswordTooShort, UsernameAlreadyTaken;
 
 }

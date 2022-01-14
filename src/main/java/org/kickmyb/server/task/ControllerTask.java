@@ -24,7 +24,8 @@ public class ControllerTask {
 	@Autowired 		private ServiceTask serviceTask;
 
 	@PostMapping("/api/add")
-	public @ResponseBody String addOne(@RequestBody AddTaskRequest request) throws Existing {
+	public @ResponseBody String addOne(@RequestBody AddTaskRequest request)
+			throws ServiceTask.Empty, ServiceTask.TooShort, ServiceTask.Existing {
 		System.out.println("KICKB SERVER : Add a task : " + request.name);
 		ConfigHTTP.attenteArticifielle();
 		MUser user = currentUser();

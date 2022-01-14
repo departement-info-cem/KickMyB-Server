@@ -52,9 +52,10 @@ public class ServiceTaskImpl implements ServiceTask {
     // TODO oublier de valider pour une injection javascript
     // TODO Que se passe-t-il si ce n'est pas transactionnel
     @Override
-    public void addOne(AddTaskRequest req, MUser user) throws Existing {
+    public void addOne(AddTaskRequest req, MUser user) throws Existing, Empty, TooShort {
         // valider que c'est non vide
-        if (req.name.trim().length() == 0) throw new IllegalArgumentException();
+        if (req.name.trim().length() == 0) throw new Empty();
+        if (req.name.trim().length() < 2) throw new TooShort();
         // valider si le nom existe déjà
         for (MTask b : user.tasks) {
             if (b.name.equalsIgnoreCase(req.name)) throw new Existing();
