@@ -18,8 +18,5 @@ public interface ServiceTask {
     void updateProgress(long taskID, int value);
     List<HomeItemResponse> home(Long userID);
 
-    // Potential web demo for JS injection
-    String index();
-
     MUser userFromUsername(String username);
 }

@@ -4,14 +4,14 @@ import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.stereotype.Component;
 
-// Composant scanné et intégrer via Spring
+// Composant scanné et intégré via Spring
 @Component
 public class ConfigHTTP
         implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
     // TODO replace with a proper interceptor
     public static void attenteArticifielle(){
-        try {Thread.sleep(3000);} catch (InterruptedException e) {}
+        try {Thread.sleep(2000);} catch (InterruptedException e) {}
     }
 
     @Override

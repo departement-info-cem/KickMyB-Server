@@ -21,11 +21,15 @@ public class ServiceTaskImpl implements ServiceTask {
     @Autowired MTaskRepository repo;
     @Autowired MProgressEventRepository repoProgressEvent;
 
-    private int percentage(Date start, Date current, Date end){
+    private double percentage(Date start, Date current, Date end){
+        if (current.after(end)) return 100.0;
         long total = end.getTime() - start.getTime();
         long spent = current.getTime() - start.getTime();
         double percentage =  100.0 * spent / total;
-        return (int) percentage;
+        percentage = Math.max(percentage, 0);
+        percentage = Math.min(percentage, 100);
+        System.out.println("Percentage is " + percentage);
+        return percentage;
     }
 
     @Override
@@ -62,7 +66,7 @@ public class ServiceTaskImpl implements ServiceTask {
         }
         // tout est beau, on crée
         MTask t = new MTask();
-        t.name = req.name;
+        t.name = req.name.trim();
         t.creationDate = DateTime.now().toDate();
         if (req.deadline == null) {
             t.deadline = DateTime.now().plusDays(7).toDate();
@@ -77,10 +81,11 @@ public class ServiceTaskImpl implements ServiceTask {
     @Override
     public void updateProgress(long taskID, int value) {
         MTask element = repo.findById(taskID).get();
-        // TODO validate value is between 0 and 100
+        if (value < 0 ) throw new IllegalArgumentException();
+        if (value > 100 ) throw new IllegalArgumentException();
         MProgressEvent pe= new MProgressEvent();
         pe.resultPercentage = value;
-        pe.completed = value ==100;
+        pe.completed = value == 100;
         pe.timestamp = DateTime.now().toDate();
         repoProgressEvent.save(pe);
         element.events.add(pe);
@@ -107,21 +112,6 @@ public class ServiceTaskImpl implements ServiceTask {
         return t.events.isEmpty()? 0 : t.events.get(t.events.size()-1).resultPercentage;
     }
 
-    // TODO try to see how to make an injection attack example by directly exposing data from DB
-    @Override
-    public String index() {
-        String res = "<html>";
-        res += "<div>Index :</div>";
-        for (MUser u: repoUser.findAll()) {
-            res += "<div>" + u.username  ;
-            for (MTask t : u.tasks) {
-                res += "<div>" + t.name  + "</div>";
-            }
-            res += "</div>";
-        }
-        res += "</html>";
-        return res;
-    }
 
     @Override
     public MUser userFromUsername(String username) {

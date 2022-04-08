@@ -15,7 +15,6 @@ public class MProgressEvent {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id     public Long id;
-    public int deltaPercentage;
     public int resultPercentage;
     public boolean completed;
     public Date timestamp;

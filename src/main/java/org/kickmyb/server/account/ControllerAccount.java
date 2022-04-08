@@ -3,6 +3,7 @@ package org.kickmyb.server.account;
 import com.google.gson.Gson;
 
 
+import org.kickmyb.CustomGson;
 import org.kickmyb.server.ConfigHTTP;
 import org.kickmyb.transfer.SigninRequest;
 import org.kickmyb.transfer.SigninResponse;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,11 +31,10 @@ public class ControllerAccount {
     @Autowired      private AuthenticationManager authManager;
     @Autowired      private ServiceAccount userService;
 
-    @Autowired      private Gson gson;
 
     @PostMapping("/api/id/signin")
     public @ResponseBody SigninResponse signin(@RequestBody  SigninRequest s) throws BadCredentialsException {
-        System.out.println("ID : SIGNIN request " + s);
+        System.out.println("ID : SIGNIN request " + CustomGson.getIt().toJson(s));
         ConfigHTTP.attenteArticifielle();
         s.username = s.username.trim().toLowerCase();
         try {
@@ -55,7 +56,7 @@ public class ControllerAccount {
     public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s)
             throws ServiceAccount.UsernameTooShort, ServiceAccount.PasswordTooShort,
             ServiceAccount.UsernameAlreadyTaken, BadCredentialsException {
-        System.out.println("ID : SIGNUP request " + s);
+        System.out.println("ID : SIGNUP request " + CustomGson.getIt().toJson(s));
         ConfigHTTP.attenteArticifielle();
         userService.signup(s);
         SigninRequest req = new SigninRequest();
@@ -67,7 +68,7 @@ public class ControllerAccount {
     }
 
     @PostMapping("/api/id/signout")
-    public @ResponseBody String signout() throws BadCredentialsException {
+    public @ResponseBody String signout() {
         System.out.println("ID : SIGNOUT REQUEST " );
         ConfigHTTP.attenteArticifielle();
         // clear the authentication in the session-based context

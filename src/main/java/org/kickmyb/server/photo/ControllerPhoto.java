@@ -33,12 +33,6 @@ public class ControllerPhoto {
     }
 
 
-    // TODO delete
-    @GetMapping("/file/baby/{id}")
-    public ResponseEntity<byte[]> compat(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
-        return taskPhoto(id, maxWidth);
-    }
-
     @GetMapping("/file/task/{id}")
     public ResponseEntity<byte[]> taskPhoto(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
         System.out.println("PHOTO : download request " + id + " width " + maxWidth);

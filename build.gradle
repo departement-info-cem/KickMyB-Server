@@ -28,7 +28,7 @@ dependencies {
 //	implementation group: 'com.google.guava', name: 'guava', version: '30.0-jre'
 	implementation group: 'joda-time', name: 'joda-time', version: '2.10.13'
 
-	implementation 'com.github.departement-info-cem:KickMyB-Library:6a00011735ba1159758b762fc3d3f5cfcdefba69'
+	implementation 'com.github.departement-info-cem:KickMyB-Library:2287af8a9025b9e0b967a54740bbfbfab51a809d'
 
 	implementation 'org.imgscalr:imgscalr-lib:4.2'
 

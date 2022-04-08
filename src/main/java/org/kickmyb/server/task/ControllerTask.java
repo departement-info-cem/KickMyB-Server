@@ -60,22 +60,12 @@ public class ControllerTask {
 		return serviceTask.detail(id, user);
     }
 
-	/**
-	 * Créer une page qui affiche tous les utilisateurs et les titres des tâches.
-	 * @return
-	 */
-	@GetMapping("/index")
-	public @ResponseBody String htmlIndex() {
-		return serviceTask.index();
-	}
 
-	/**
-	 * Tester votre serveur
-	 * @return
-	 */
-	@GetMapping("/test")
-	public @ResponseBody String test() {
-		return "SALUT";
+	@GetMapping("/")
+	public @ResponseBody String hello() {
+		System.out.println("TEST connection");
+		ConfigHTTP.attenteArticifielle();
+		return "Yo";
 	}
 
 	/**
