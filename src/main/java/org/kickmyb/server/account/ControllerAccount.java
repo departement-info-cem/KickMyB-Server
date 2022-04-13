@@ -57,7 +57,6 @@ public class ControllerAccount {
             throws ServiceAccount.UsernameTooShort, ServiceAccount.PasswordTooShort,
             ServiceAccount.UsernameAlreadyTaken, BadCredentialsException {
         System.out.println("ID : SIGNUP request " + CustomGson.getIt().toJson(s));
-        ConfigHTTP.attenteArticifielle();
         userService.signup(s);
         SigninRequest req = new SigninRequest();
         req.username = s.username;
