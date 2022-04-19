@@ -30,7 +30,8 @@ public class ServiceTaskImpl implements ServiceTask {
 
     @Override
     public TaskDetailResponse detail(Long id, MUser user) {
-        MTask element = user.tasks.stream().filter(elt -> elt.id == id).findFirst().get();
+        MTask element = repo.findById(id).get();
+        //MTask element = user.tasks.stream().filter(elt -> elt.id == id).findFirst().get();
         TaskDetailResponse response = new TaskDetailResponse();
         response.name = element.name;
         response.id = element.id;
