@@ -26,3 +26,5 @@ https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
 * created Procfile to tell heroku how to run the app after building
 * ./gradlew build -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
 * heroku local web 
+
+fix après grosse erreur de GIT, version H23 avec modifications brisantes dans le main
