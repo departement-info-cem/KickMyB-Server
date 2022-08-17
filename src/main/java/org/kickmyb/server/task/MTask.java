@@ -1,5 +1,7 @@
 package org.kickmyb.server.task;
 
+import org.kickmyb.server.photo.MPhoto;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,5 +24,8 @@ public class MTask {
 
     @OneToMany(fetch=FetchType.EAGER)
     public List<MProgressEvent> events = new ArrayList<>();
+
+    @OneToOne
+    public MPhoto photo;
 
 }

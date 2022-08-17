@@ -20,21 +20,43 @@ public class ServicePhoto {
     @Transactional
     public MPhoto store(MultipartFile file, Long elementID) throws IOException {
         //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        MTask element = repo.findById(elementID).get();
+        MTask task = repo.findById(elementID).get();
         try{
-            MPhoto existing = repoPics.findByTask(element).get();
+            MPhoto existing = repoPics.findByTask(task).get();
             repoPics.delete(existing);
         } catch(Exception e){}
-        // throw an exception here to show that trabsactional protects against delete but not store
-        MPhoto babyPicture = new MPhoto();
-        babyPicture.blob = file.getBytes();
-        babyPicture.contentType = file.getContentType();
-        babyPicture.task = element;
-        return repoPics.save(babyPicture);
+        // throw an exception here to show that transactional protects against delete but not store
+        MPhoto photo = new MPhoto();
+        photo.blob = file.getBytes();
+        photo.contentType = file.getContentType();
+        photo.task = task;
+
+        photo = repoPics.save(photo);
+
+        task.photo = photo;
+        repo.save(task);
+
+        return photo;
     }
 
-    public MPhoto getFileForTask(Long elementID) {
+    @Transactional
+    public MPhoto storeSingle(MultipartFile file) throws IOException {
+
+        MPhoto photo = new MPhoto();
+        photo.blob = file.getBytes();
+        photo.contentType = file.getContentType();
+
+        photo = repoPics.save(photo);
+
+        return photo;
+    }
+
+    /*public MPhoto getFileForTask(Long elementID) {
         MTask element = repo.findById(elementID).get();
         return repoPics.findByTask(element).get();
+    }*/
+
+    public MPhoto getFile(Long elementID) {
+        return repoPics.findById(elementID).get();
     }
 }

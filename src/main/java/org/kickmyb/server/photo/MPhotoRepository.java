@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface MPhotoRepository extends PagingAndSortingRepository<MPhoto, Long> {
-    Optional<MPhoto> findByTask(MTask baby);
+    Optional<MPhoto> findByTask(MTask task);
 }
