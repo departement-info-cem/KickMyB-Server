@@ -5,6 +5,8 @@ import org.kickmyb.server.account.MUser;
 import org.kickmyb.transfer.AddTaskRequest;
 import org.kickmyb.transfer.HomeItemResponse;
 import org.kickmyb.transfer.TaskDetailResponse;
+import org.kickmyb.transfer.HomeItemPhotoResponse;
+import org.kickmyb.transfer.TaskDetailPhotoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,6 +61,23 @@ public class ControllerTask {
 		MUser user = currentUser();
 		return serviceTask.detail(id, user);
     }
+
+	@GetMapping("/api/home/photo")
+	public @ResponseBody List<HomeItemPhotoResponse> homePhoto() {
+		System.out.println("KICKB SERVER : Task list  with cookie" );
+		ConfigHTTP.attenteArticifielle();
+		MUser user = currentUser();
+		return serviceTask.homePhoto(user.id);
+	}
+
+	@GetMapping("/api/detail/photo/{id}")
+	public @ResponseBody
+	TaskDetailPhotoResponse detailPhoto(@PathVariable long id) {
+		System.out.println("KICKB SERVER : Detail  with cookie " );
+		ConfigHTTP.attenteArticifielle();
+		MUser user = currentUser();
+		return serviceTask.detailPhoto(id, user);
+	}
 
 	/**
 	 * Créer une page qui affiche tous les utilisateurs et les titres des tâches.

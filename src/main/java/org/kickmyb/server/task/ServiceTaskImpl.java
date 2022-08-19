@@ -128,4 +128,52 @@ public class ServiceTaskImpl implements ServiceTask {
         return repoUser.findByUsername(username).get();
     }
 
+    @Override
+    public List<HomeItemPhotoResponse> homePhoto(Long userID) {
+        MUser user = repoUser.findById(userID).get();
+        List<HomeItemPhotoResponse> res = new ArrayList<>();
+        for (MTask t : user.tasks) {
+            HomeItemPhotoResponse r = new HomeItemPhotoResponse();
+            r.id = t.id;
+            r.percentageDone = percentageDone(t);
+            r.deadline = t.deadline;
+            r.percentageTimeSpent = percentage(t.creationDate, new Date(), t.deadline);
+            r.name = t.name;
+            if(t.photo != null) {
+                r.photoId = t.photo.id;
+            } else {
+                r.photoId = 0L;
+            }
+            res.add(r);
+        }
+        return res;
+    }
+
+    @Override
+    public TaskDetailPhotoResponse detailPhoto(Long id, MUser user) {
+        MTask element = user.tasks.stream().filter(elt -> elt.id == id).findFirst().get();
+        TaskDetailPhotoResponse response = new TaskDetailPhotoResponse();
+        response.name = element.name;
+        response.id = element.id;
+        // calcul le temps écoulé en pourcentage
+        response.percentageTimeSpent = percentage(element.creationDate, new Date(), element.deadline);
+        // aller chercher le dernier événement de progrès
+        response.percentageDone = percentageDone(element);
+        response.deadline = element.deadline;
+        response.events = new ArrayList<>();
+        for (MProgressEvent e : element.events) {
+            ProgressEvent transfer = new ProgressEvent();
+            transfer.value = e.resultPercentage;
+            transfer.timestamp = e.timestamp;
+            response.events.add(transfer);
+        }
+        if(element.photo != null) {
+            response.photoId = element.photo.id;
+        } else {
+            response.photoId = 0L;
+        }
+
+        return response;
+    }
+
 }

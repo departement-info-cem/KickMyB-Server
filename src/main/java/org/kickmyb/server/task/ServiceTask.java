@@ -17,6 +17,8 @@ public interface ServiceTask {
     void addOne(AddTaskRequest req, MUser user) throws Existing, Empty, TooShort;
     void updateProgress(long taskID, int value);
     List<HomeItemResponse> home(Long userID);
+    TaskDetailPhotoResponse detailPhoto(Long id, MUser user);
+    List<HomeItemPhotoResponse> homePhoto(Long userID);
 
     // Potential web demo for JS injection
     String index();
