@@ -62,23 +62,6 @@ public class ControllerTask {
 		return serviceTask.detail(id, user);
     }
 
-	@GetMapping("/api/home/photo")
-	public @ResponseBody List<HomeItemPhotoResponse> homePhoto() {
-		System.out.println("KICKB SERVER : Task list  with cookie" );
-		ConfigHTTP.attenteArticifielle();
-		MUser user = currentUser();
-		return serviceTask.homePhoto(user.id);
-	}
-
-	@GetMapping("/api/detail/photo/{id}")
-	public @ResponseBody
-	TaskDetailPhotoResponse detailPhoto(@PathVariable long id) {
-		System.out.println("KICKB SERVER : Detail  with cookie " );
-		ConfigHTTP.attenteArticifielle();
-		MUser user = currentUser();
-		return serviceTask.detailPhoto(id, user);
-	}
-
 	/**
 	 * Créer une page qui affiche tous les utilisateurs et les titres des tâches.
 	 * @return

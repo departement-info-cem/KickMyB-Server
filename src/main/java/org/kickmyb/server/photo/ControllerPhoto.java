@@ -2,15 +2,18 @@ package org.kickmyb.server.photo;
 
 import org.imgscalr.Scalr;
 import org.kickmyb.server.ConfigHTTP;
+import org.kickmyb.server.account.MUser;
+import org.kickmyb.server.task.ServiceTask;
+import org.kickmyb.transfer.HomeItemPhotoResponse;
+import org.kickmyb.transfer.TaskDetailPhotoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -18,11 +21,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 @Controller     // indique à Spring qu'il y a des points d'entrée dans la classe
 public class ControllerPhoto {
 
     @Autowired private ServicePhoto servicePhoto;
+    @Autowired 		private ServiceTask serviceTask;
 
     @PostMapping("/file")
     public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("taskID") Long taskID) throws IOException {
@@ -77,4 +82,29 @@ public class ControllerPhoto {
     public ResponseEntity<byte[]> photoSingle(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
         return taskPhoto(id, maxWidth);
     }
+
+    @GetMapping("/api/home/photo")
+    public @ResponseBody List<HomeItemPhotoResponse> homePhoto() {
+        System.out.println("KICKB SERVER : Task list  with cookie" );
+        ConfigHTTP.attenteArticifielle();
+        MUser user = currentUser();
+        return serviceTask.homePhoto(user.id);
+    }
+
+    @GetMapping("/api/detail/photo/{id}")
+    public @ResponseBody
+    TaskDetailPhotoResponse detailPhoto(@PathVariable long id) {
+        System.out.println("KICKB SERVER : Detail  with cookie " );
+        ConfigHTTP.attenteArticifielle();
+        MUser user = currentUser();
+        return serviceTask.detailPhoto(id, user);
+    }
+
+    private MUser currentUser() {
+        UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MUser user = serviceTask.userFromUsername(ud.getUsername());
+        return user;
+    }
+
+
 }
