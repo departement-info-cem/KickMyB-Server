@@ -1,30 +1,37 @@
-# Getting Started
+# Abonnement étudiant préalable
+- **Assurez-vous d'avoir votre abonnement étudiant actif**. Pour ce faire, tentez d'accéder à la liste des logiciels disponibles sur Azure avec votre compte étudiant. Si tu en vois qu'une dizaine, c'est que ton abonnement étudiant n'est pas activité. Normalement, tu devrais en voir une centaine. Dans la page avec la liste des logiciels, il y aura un message en mauve apparaissant sur la page d'invitant à compléter ton inscription si ton abonnement n'était pas actif.
 
-### How to start
-Partir le projet dans IntelliJ trouver la classe ServerApplication
-Clique sur la flèche verte pour le partir
+# Installations d'outils préalables
+- Télécharger et installer le client Azure [ici](https://aka.ms/installazurecliwindows)
+  - Tester l'installation dans un terminal en tapant l'instruction : az --version
 
-Envoie une requête en post sur https://localhost:8787/api/addbaby
+- Télécharger le zip contenant Apache Maven 3.9.0 [ici](https://dlcdn.apache.org/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.zip)
+  - Dézipper le contenu dans un répertoire proche de la racine (ex : C:\apache-maven-3.9.0).
+  - Ajouter à votre PATH, un chemin vers le répertoire "bin" contenu dans le répertoire (ex : C:\apache-maven-3.9.0\bin)
+  - Tester l'installation dans un terminal en tapant l'instruction : mvn --version
 
-Console de données au 
-https://localhost:8787/h2-console
-Ensuite coller la valeur de url trouvée dans DataSourceConfig
+# Configuration pour le déploiement
+- Éditer le fichier pom.xml, vers la fin du fichier modifier les deux éléments XML suivant afin d'y rajouter les valeurs suivantes 
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+  - `<resourceGroup>4204n6kickmyb-NUMEROETUDIANT</resourceGroup>`
+  - `<appName>4204n6kickmyb-NUMEROETUDIANT</appName>`
 
-### Deploiement sur Heroku
-https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
-* créer un compte heorku
-* télécharger le cli
-* en ligne de commandes : heroku login
-* aller dans le dossier du projet : heroku create
-*  heroku apps:rename kickmyb-server pour renommer appli  
-* https://devcenter.heroku.com/articles/local-maven-dependencies local library fucks
-* git push heroku HEAD:master
-* not working because of java version. created system.properties file > java 11
-* successful push but app crashes on request https://kickmyb-server.herokuapp.com/api/id/signup
-* created Procfile to tell heroku how to run the app after building
-* ./gradlew build -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
-* heroku local web 
-
-fix après grosse erreur de GIT, version H23 avec modifications brisantes dans le main
+# Déploiement du serveur
+- Dans un terminal, entrer la commande pour se connecter à son compte Azure :
+  ```sh
+  az login 
+  ```
+- Dans le même terminal, à la racine du projet Java représentant le serveur, entrer la commande pour préparer un package (artéfact à envoyer au serveur) : 
+  ```sh
+  mvn clean package
+  ```
+- Tester l'artefact sur le port 8080 après avoir faire la commande suivante : 
+  ```sh
+  mvn spring-boot:run
+  ```
+- Déployer le serveur sur Azure (ignorer les messages d'erreurs en lien avec Application Insights) :
+  ```sh
+  mvn azure-webapp:deploy
+  ```
+  
+Que la force soit avec vous!
