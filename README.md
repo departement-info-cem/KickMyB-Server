@@ -39,6 +39,6 @@ Spring Boot Server for KickMyB
   ```sh
   mvn azure-webapp:deploy
   ```
-- Observez le résultat de la commande précédente, l'URL afin d'accéder à votre serveur sera affichez dans la console.
+- Observez le résultat de la commande précédente, l'URL pour accéder à votre serveur sera affiché.
 
 Que la force soit avec vous!
