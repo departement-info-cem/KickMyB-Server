@@ -13,7 +13,7 @@ Spring Boot Server for KickMyB
 
 - Télécharger le zip contenant Apache Maven 3.9.0 [ici](https://dlcdn.apache.org/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.zip)
   - Dézipper le contenu dans un répertoire proche de la racine (ex : C:\apache-maven-3.9.0).
-  - Ajouter à votre PATH, un chemin vers le répertoire "bin" contenu dans le répertoire (ex : C:\apache-maven-3.9.0\bin)
+  - Ajouter à la variable d'environnement PATH, le chemin vers le répertoire "bin" contenu dans le répertoire (ex : C:\apache-maven-3.9.0\bin)
   - Tester l'installation dans un terminal en tapant l'instruction : mvn --version
 
 ## Configuration pour le déploiement
@@ -27,7 +27,7 @@ Spring Boot Server for KickMyB
   ```sh
   az login 
   ```
-- Dans le même terminal, à la racine du projet Java représentant le serveur, entrer la commande pour préparer un package (artéfact à envoyer au serveur) : 
+- Dans le même terminal, dans le répertoire où est le fichier pom.xml, entrer la commande pour préparer un package (artéfact à envoyer au serveur) : 
   ```sh
   mvn clean package
   ```
@@ -39,5 +39,6 @@ Spring Boot Server for KickMyB
   ```sh
   mvn azure-webapp:deploy
   ```
-  
+- Observez le résultat de la commande précédente, l'URL afin d'accéder à votre serveur sera affichez dans la console.
+
 Que la force soit avec vous!
