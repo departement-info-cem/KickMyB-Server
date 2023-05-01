@@ -27,7 +27,7 @@ import java.util.List;
 public class ControllerPhoto {
 
     @Autowired private ServicePhoto servicePhoto;
-    @Autowired 		private ServiceTask serviceTask;
+    @Autowired private ServiceTask serviceTask;
 
     @PostMapping("/file")
     public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("taskID") Long taskID) throws IOException {
