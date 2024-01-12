@@ -11,14 +11,14 @@ programmer un client qui se connecte à ce serveur.
 
 # Fonctionnalités Points d'entrées
 
-## Créer un compte
+## Créer un compte :: POST /api/id/signup
 ```json title="POST /api/id/signup"
 {
   "username" : "MrPipo",
   "password" : "pipo"
 }
 ```
-## S'inscrire avec un compte existant
+## S'inscrire avec un compte existant :: POST /api/id/signin
 ```json title="POST /api/id/signin"
 {
   "username" : "MrPipo",
@@ -26,7 +26,7 @@ programmer un client qui se connecte à ce serveur.
 }
 ```
 
-## Ajouter une tâche au compte actuel (nécessite d'être connecté)
+## Ajouter une tâche au compte actuel (nécessite d'être connecté) :: POST /api/add
 ```json title="POST /api/add"
 {
   "name" : "test",
@@ -34,7 +34,7 @@ programmer un client qui se connecte à ce serveur.
 }
 ```
 
-## Voir les tâches du compte actuel (nécessite d'être connecté)
+## Voir les tâches du compte actuel (nécessite d'être connecté) :: GET /api/home
 ```json title="GET /api/home"
 
 ```
