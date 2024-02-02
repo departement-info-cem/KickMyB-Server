@@ -26,10 +26,12 @@ import java.util.List;
 @Controller     // indique à Spring qu'il y a des points d'entrée dans la classe
 public class ControllerPhoto {
 
-    @Autowired private ServicePhoto servicePhoto;
-    @Autowired private ServiceTask serviceTask;
+    @Autowired
+    private ServicePhoto servicePhoto;
+    @Autowired
+    private ServiceTask serviceTask;
 
-    @PostMapping("/file")
+    @PostMapping(value = "/file", produces = "text/plain")
     public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("taskID") Long taskID) throws IOException {
         System.out.println("PHOTO : upload request " + file.getContentType());
         ConfigHTTP.attenteArticifielle();
@@ -42,13 +44,12 @@ public class ControllerPhoto {
         System.out.println("PHOTO : download request " + id + " width " + maxWidth);
         ConfigHTTP.attenteArticifielle();
         MPhoto pic = servicePhoto.getFile(id);
-        // TODO explain resizing logic
         if (maxWidth == null) { // no resizing
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(pic.blob);
         } else {
             ByteArrayInputStream bais = new ByteArrayInputStream(pic.blob);
             BufferedImage bi = ImageIO.read(bais);
-            BufferedImage resized = Scalr.resize(bi, Scalr.Method.ULTRA_QUALITY,  maxWidth);
+            BufferedImage resized = Scalr.resize(bi, Scalr.Method.ULTRA_QUALITY, maxWidth);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(resized, "jpg", baos);
@@ -58,7 +59,7 @@ public class ControllerPhoto {
     }
 
     //Méthode utilisée uniquement pour les exercices
-    @PostMapping("/singleFile")
+    @PostMapping(value = "/singleFile", produces = "text/plain")
     public ResponseEntity<String> upSingle(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("PHOTO : single upload request " + file.getContentType());
         ConfigHTTP.attenteArticifielle();
@@ -73,7 +74,7 @@ public class ControllerPhoto {
     }
 
     //Méthode utilisée uniquement pour les exercices
-    @PostMapping("/api/singleFile")
+    @PostMapping(value = "/api/singleFile", produces = "text/plain")
     public ResponseEntity<String> upSingleCookie(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("PHOTO : cookie " + file.getContentType());
         return upSingle(file);
@@ -88,17 +89,16 @@ public class ControllerPhoto {
     //Méthode utilisée pour récupérer les items de la liste des tâches avec des photos
     @GetMapping("/api/home/photo")
     public @ResponseBody List<HomeItemPhotoResponse> homePhoto() {
-        System.out.println("KICKB SERVER : Task list  with cookie" );
+        System.out.println("KICKB SERVER : Task list  with cookie");
         ConfigHTTP.attenteArticifielle();
         MUser user = currentUser();
         return serviceTask.homePhoto(user.id);
     }
 
-    //Méthode utilisée pour récupérer le détaild'une tâche avec des photos
+    //Méthode utilisée pour récupérer le détail d'une tâche avec des photos
     @GetMapping("/api/detail/photo/{id}")
-    public @ResponseBody
-    TaskDetailPhotoResponse detailPhoto(@PathVariable long id) {
-        System.out.println("KICKB SERVER : Detail  with cookie " );
+    public @ResponseBody TaskDetailPhotoResponse detailPhoto(@PathVariable long id) {
+        System.out.println("KICKB SERVER : Detail  with cookie ");
         ConfigHTTP.attenteArticifielle();
         MUser user = currentUser();
         return serviceTask.detailPhoto(id, user);
@@ -106,8 +106,7 @@ public class ControllerPhoto {
 
     private MUser currentUser() {
         UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        MUser user = serviceTask.userFromUsername(ud.getUsername());
-        return user;
+        return serviceTask.userFromUsername(ud.getUsername());
     }
 
 

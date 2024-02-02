@@ -19,20 +19,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 // Jersey based web service that provides endpoints for
-// signin signup and signout in spring security
+// signin signup and sign out in spring security
 
-//@Path("/id")
 @Controller
 public class ControllerAccount {
 
     // Spring security requires the AuthenticationManager to inject the security Context in the session
-    @Autowired      private AuthenticationManager authManager;
-    @Autowired      private ServiceAccount userService;
+    @Autowired
+    private AuthenticationManager authManager;
+    @Autowired
+    private ServiceAccount userService;
 
-    @Autowired      private Gson gson;
+    @Autowired
+    private Gson gson;
 
     @PostMapping("/api/id/signin")
-    public @ResponseBody SigninResponse signin(@RequestBody  SigninRequest s) throws BadCredentialsException {
+    public @ResponseBody SigninResponse signin(@RequestBody SigninRequest s) throws BadCredentialsException {
         System.out.println("ID : SIGNIN request " + s);
         ConfigHTTP.attenteArticifielle();
         s.username = s.username.trim().toLowerCase();
@@ -52,9 +54,7 @@ public class ControllerAccount {
     }
 
     @PostMapping("/api/id/signup")
-    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s)
-            throws ServiceAccount.UsernameTooShort, ServiceAccount.PasswordTooShort,
-            ServiceAccount.UsernameAlreadyTaken, BadCredentialsException {
+    public @ResponseBody SigninResponse signup(@RequestBody SignupRequest s) throws ServiceAccount.UsernameTooShort, ServiceAccount.PasswordTooShort, ServiceAccount.UsernameAlreadyTaken, BadCredentialsException {
         System.out.println("ID : SIGNUP request " + s);
         ConfigHTTP.attenteArticifielle();
         userService.signup(s);
@@ -66,9 +66,9 @@ public class ControllerAccount {
 
     }
 
-    @PostMapping("/api/id/signout")
-    public @ResponseBody String signout() throws BadCredentialsException {
-        System.out.println("ID : SIGNOUT REQUEST " );
+    @PostMapping(value = "/api/id/signout", produces = "plain/text")
+    public @ResponseBody String signout() {
+        System.out.println("ID : SIGNOUT REQUEST ");
         ConfigHTTP.attenteArticifielle();
         // clear the authentication in the session-based context
         SecurityContextHolder.getContext().setAuthentication(null);
