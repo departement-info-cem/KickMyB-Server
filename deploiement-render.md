@@ -17,7 +17,7 @@ Le fichier qui rend notre application compatible avec Docker est le fichier `Doc
 ## Etapes pour le déploiement en tant que tel
 
 1. Aller sur le [dashboard de Render](https://dashboard.render.com)
-2. Se connecter avec ton compte GitHub
+2. Se connecter avec ton compte GitHub (le même que celui où tu as forké le projet)
 3. Cliquer sur le bouton `New` en haut
 4. Sélectionner `New Web Service` ou `Web Service`
 5. Sélectionner le repo forké depuis le projet KickMyB-Server
