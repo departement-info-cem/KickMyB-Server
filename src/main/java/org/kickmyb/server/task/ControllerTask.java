@@ -68,7 +68,7 @@ public class ControllerTask {
     /**
      * Tester votre serveur
      */
-    @GetMapping(value = "/test", produces = "plain/text")
+    @GetMapping(value = "/test", produces = "text/html")
     public @ResponseBody String test() {
         return "SALUT";
     }
