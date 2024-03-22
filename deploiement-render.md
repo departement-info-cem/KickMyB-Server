@@ -32,13 +32,13 @@ Le fichier qui rend notre application compatible avec Docker est le fichier `Doc
 9. Tu devrais arriver sur la page de ton service
 10. Si le deploy a échoué, tu peux essayer le bouton "Manual Deploy" et sélectionner le dernier commit du repo
 
-## utilisation avec ton client
+## Utilisation avec ton client
 
 La page de ton service devrait te donner l'URL de ton service.
 
 Il faut prendre en compte que le service s'arrête si rien ne se passe pendant un certain temps.
 
-Donc quand ton serveur va repartir, la première requête va prendre un certain temps.
+Donc, quand ton serveur va repartir, la première requête va prendre un certain temps.
 
-Aussi, comme la BD est uniquement en mémoire vive, dès que le serveur repartira la BD sera vide.
+Aussi, comme la BD est uniquement en mémoire vive, dès que le serveur repartira, la BD sera vide.
 
