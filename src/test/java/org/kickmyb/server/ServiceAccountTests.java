@@ -1,4 +1,4 @@
-package org.bbtracker.server;
+package org.kickmyb.server;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,9 +39,6 @@ class ServiceAccountTests {
 					serviceAccount.signup(req);
 					serviceAccount.signup(req);
 		}, "NumberFormatException was expected");
-
-
-
 	}
 
 }

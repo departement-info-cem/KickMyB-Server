@@ -1,4 +1,4 @@
-package org.bbtracker.server;
+package org.kickmyb.server;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ class ServiceTaskTests {
     }
 
     @Test
-    void testAddTaskEmpty() throws ServiceTask.Empty, ServiceTask.TooShort, ServiceTask.Existing {
+    void testAddTaskEmpty()  {
         MUser u = new MUser();
         u.username = "M. Test";
         u.password = passwordEncoder.encode("Passw0rd!");
