@@ -1,8 +1,8 @@
 package org.kickmyb.server.account;
 
+import jakarta.persistence.*;
 import org.kickmyb.server.task.MTask;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

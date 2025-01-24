@@ -1,12 +1,12 @@
 package org.kickmyb.server.photo;
 
+import jakarta.transaction.Transactional;
 import org.kickmyb.server.task.MTask;
 import org.kickmyb.server.task.MTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 
 @Service // Peut être remplacé par @Component mais c'est juste plus clair. Indique qu'il s'agit d'un bean, permet l'injection dans Autowired

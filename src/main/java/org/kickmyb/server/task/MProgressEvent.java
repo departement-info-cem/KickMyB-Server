@@ -1,10 +1,10 @@
 package org.kickmyb.server.task;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -14,7 +14,8 @@ import java.util.Date;
 public class MProgressEvent {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Id     public Long id;
+    @Id
+    public Long id;
     public int deltaPercentage;
     public int resultPercentage;
     public boolean completed;

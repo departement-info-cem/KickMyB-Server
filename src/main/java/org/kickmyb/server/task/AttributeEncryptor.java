@@ -1,12 +1,12 @@
 package org.kickmyb.server.task;
 
+import jakarta.persistence.AttributeConverter;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
-import javax.persistence.AttributeConverter;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.util.Base64;

@@ -6,10 +6,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 // TODO security
 
@@ -56,36 +61,41 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // TODO various authentication session, token, JWT, authentication provider OAuth
 
 @Configuration
-public class ConfigSecurity extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+//@EnableMethodSecurity
+public class ConfigSecurity {
 
     @Autowired
     ServiceAccount userService;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .headers().frameOptions().sameOrigin().and()// for h2 console only TODO remove for prod ?
-                .csrf().disable()       // for a web API, disable CSRF token injected on response > request
-                .cors().and()
-                .authorizeRequests()
-                // TODO quand on s'inscrit ou qu'on se connecte, on est pas encore dans le système
-            .antMatchers("/api/id/**").permitAll()
-                // TODO tous les autres appels à API requierent un utilisateur authentifié
-            .antMatchers("/api/**").authenticated()
-        ;
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                authorize -> authorize
+                        .requestMatchers("/api/id/**").permitAll()
+                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .anyRequest().permitAll()
+
+                );
+        return http.build();
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+    @Bean
+    public SecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
     }
 
-    @Bean @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userService);
+        return authenticationManagerBuilder.build();
     }
 
-    // TODO changer le passwordEncoder et regarder ce que ça change en base de données
-    @Bean public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
-    //@Bean public PasswordEncoder passwordEncoder() {return NoOpPasswordEncoder.getInstance();}
+
 }
