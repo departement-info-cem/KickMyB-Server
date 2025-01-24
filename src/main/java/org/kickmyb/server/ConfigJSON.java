@@ -1,16 +1,16 @@
 package org.kickmyb.server;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.kickmyb.CustomGson;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// le but est de forcer un seul format compatible avec Java de Android par défaut
-// https://github.com/google/gson/blob/master/gson/src/main/java/com/google/gson/internal/bind/DateTypeAdapter.java
-
-
+/**
+ * Cette classe de configuration permet d'indiquer à Spring d'utiliser le Bean fourni quand il a besoin d'un Gson.
+ *
+ * Le serveur va donc utiliser notre objet Gson personnalisé quand il doit sérialiser en JSON.
+ */
 @Configuration
 @ConditionalOnClass(Gson.class)
 public class ConfigJSON {

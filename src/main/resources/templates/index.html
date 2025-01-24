@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Le serveur</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- add bulma from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bulma@1.0.3/css/bulma.min.css" rel="stylesheet">
+</head>
+<body>
+
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Bienvenue sur le serveur de KickMyB
+            </h1>
+            <h2 class="subtitle">
+                Incluant la documentation de l'API
+            </h2>
+            <p th:text="|Yo, ${message}!|" />
+
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">API pour les comptes</h1>
+
+        <div class="columns is-multiline">
+            <div class="column is-one-third">
+                <div class="box">
+                    <h2 class="subtitle">Créer un compte :: POST /api/id/signup</h2>
+                    <pre><code class="json">{
+  "username" : "MrPipo",
+  "password" : "pipo"
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="column is-one-third">
+                <div class="box">
+                    <h2 class="subtitle">Se connecter avec un compte existant :: POST /api/id/signin</h2>
+                    <pre><code class="json">{
+  "username" : "MrPipo",
+  "password" : "pipo"
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="column is-one-third">
+                <div class="box">
+                    <h2 class="subtitle">Se déconnecter  :: POST /api/id/signout</h2>
+                    <pre><code class="json"></code></pre>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">API pour les tâches</h1>
+
+            <div class="columns is-multiline">
+
+
+
+
+                <div class="column is-one-third">
+                    <div class="box">
+                        <h2 class="subtitle">Ajouter une tâche au compte actuel (nécessite d'être connecté) :: POST /api/add</h2>
+                        <pre><code class="json">{
+  "name" : "test",
+  "deadline" : "2069-05-24T12:12:12"
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="column is-one-third">
+                    <div class="box">
+                        <h2 class="subtitle">Voir les tâches du compte actuel (nécessite d'être connecté) :: GET /api/home</h2>
+                        <pre><code class="json"></code></pre>
+                    </div>
+                </div>
+                <div class="column is-one-third">
+                    <div class="box">
+                        <h2 class="subtitle">voir le détail d'une tâche :: GET /api/detail/{id}</h2>
+                        <pre><code class="json"></code></pre>
+                    </div>
+                </div>
+
+                <div class="column is-one-third">
+                    <div class="box">
+                        <h2 class="subtitle">mettre à jour le % d'avancement :: GET /api/progress/{id}/{valeur}</h2>
+                        id est le l'identifiant de la tâche et valeur est la nouvelle valeur d'avancement
+                        <pre><code class="json"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

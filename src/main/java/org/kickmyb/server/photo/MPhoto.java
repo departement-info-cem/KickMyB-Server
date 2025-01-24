@@ -1,8 +1,8 @@
 package org.kickmyb.server.photo;
 
+import jakarta.persistence.*;
 import org.kickmyb.server.task.MTask;
 
-import javax.persistence.*;
 
 @Entity
 public class MPhoto {
@@ -11,7 +11,8 @@ public class MPhoto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    @Lob    public byte[] blob;
+    @Lob
+    public byte[] blob;
     @Basic  public String contentType;
     @OneToOne
     public MTask task;

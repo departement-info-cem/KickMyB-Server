@@ -6,6 +6,7 @@ import org.kickmyb.transfer.AddTaskRequest;
 import org.kickmyb.transfer.HomeItemResponse;
 import org.kickmyb.transfer.TaskDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// This is JAX-RS Jersey style annotations
-// Can be mixed with Spring Security security
-// And can use Autowired Services too
+// TODO move to @AuthenticationPrincipal user
+
 @Controller
 public class ControllerTask {
 
@@ -58,28 +58,15 @@ public class ControllerTask {
     }
 
     /**
-     * Créer une page qui affiche tous les utilisateurs et les titres des tâches.
-     */
-    @GetMapping(value = "/index", produces = "text/html")
-    public @ResponseBody String htmlIndex() {
-        return serviceTask.index();
-    }
-
-    /**
-     * Tester votre serveur
-     */
-    @GetMapping(value = "/test", produces = "text/html")
-    public @ResponseBody String test() {
-        return "SALUT";
-    }
-
-    /**
      * Accède au Principal stocké dans la mémoire vivre (HttpSession)
      * La session de l'utilisateur est accédée grâce au  JSESSIONID qui était dans lq requête dans un cookie
      * Ensuite, on va à la base de données pour récupérer l'objet user complet.
      */
     private MUser currentUser() {
-        UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println("Le nom utilisateur est " + username);
+        UserDetails ud = (UserDetails) authentication.getPrincipal();
         return serviceTask.userFromUsername(ud.getUsername());
     }
 }

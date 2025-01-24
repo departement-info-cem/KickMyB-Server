@@ -7,7 +7,7 @@ programmer un client qui se connecte à ce serveur.
 
 [Déploiement sur Render](deploiement-render.md)
 
-[Déploiement sur Azure](deploiement-azure.md)
+ANCIEN [Déploiement sur Azure](deploiement-azure.md)
 
 # Fonctionnalités Points d'entrées
 
@@ -38,3 +38,8 @@ programmer un client qui se connecte à ce serveur.
 ```json title="GET /api/home"
 
 ```
+
+
+# changements pour passer à Spring Boot 3 
+- Sauvegarde explicite du contexte de sécurité au signin et signout
+- Changement de la syntaxe pour la config Security

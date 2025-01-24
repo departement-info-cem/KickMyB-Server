@@ -1,8 +1,8 @@
 package org.kickmyb.server.task;
 
+import jakarta.persistence.*;
 import org.kickmyb.server.photo.MPhoto;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +13,8 @@ import java.util.List;
 @Entity
 public class MTask {
 
-    @Id     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
     public Date creationDate;
     public Date deadline;
