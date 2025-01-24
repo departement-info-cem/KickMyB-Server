@@ -58,34 +58,6 @@ public class ControllerPhoto {
         }
     }
 
-    //Méthode utilisée uniquement pour les exercices
-    @PostMapping(value = "/singleFile", produces = "text/plain")
-    public ResponseEntity<String> upSingle(@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println("PHOTO : single upload request " + file.getContentType());
-        ConfigHTTP.attenteArticifielle();
-        MPhoto p = servicePhoto.storeSingle(file);
-        return ResponseEntity.status(HttpStatus.OK).body(p.id.toString());
-    }
-
-    //Méthode utilisée uniquement pour les exercices
-    @GetMapping("/singleFile/{id}")
-    public ResponseEntity<byte[]> photoSingle(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
-        return taskPhoto(id, maxWidth);
-    }
-
-    //Méthode utilisée uniquement pour les exercices
-    @PostMapping(value = "/api/singleFile", produces = "text/plain")
-    public ResponseEntity<String> upSingleCookie(@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println("PHOTO : cookie " + file.getContentType());
-        return upSingle(file);
-    }
-
-    //Méthode utilisée uniquement pour les exercices
-    @GetMapping("/api/singleFile/{id}")
-    public ResponseEntity<byte[]> photoSingleCookie(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
-        return taskPhoto(id, maxWidth);
-    }
-
     //Méthode utilisée pour récupérer les items de la liste des tâches avec des photos
     @GetMapping("/api/home/photo")
     public @ResponseBody List<HomeItemPhotoResponse> homePhoto() {
