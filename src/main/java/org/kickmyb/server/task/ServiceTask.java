@@ -3,7 +3,6 @@ package org.kickmyb.server.task;
 import org.kickmyb.server.account.MUser;
 import org.kickmyb.transfer.*;
 
-
 import java.util.List;
 
 public interface ServiceTask {
