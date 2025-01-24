@@ -4,7 +4,16 @@ import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.stereotype.Component;
 
-// Composant scanné et intégrer via Spring
+/**
+ * La déclaration @Component indique à Spring de charger cette classe et d'en tenir compte dans la
+ * configuration du serveur.
+ *
+ * attenteArtificielle est une méthode qui sera appelée dans chaque contrôleur pour patienter 1500 ms
+ * et tester les indicateurs d'attentde de notre GUI
+ *
+ * customize permet de spécifier des paramètres du serveur au démarrage comme un port spécifique
+ * On pourrait également configurer ces éléments via le application.properties
+ */
 @Component
 public class ConfigHTTP
         implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {

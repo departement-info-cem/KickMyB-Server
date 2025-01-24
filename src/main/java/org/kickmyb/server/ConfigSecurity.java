@@ -75,20 +75,41 @@ public class ConfigSecurity {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                 authorize -> authorize
+                        // signin signup signout doivent être accessibles sans être connecté
                         .requestMatchers("/api/id/**").permitAll()
+                        // tous les appels à l'API doit être fait quand connecté
                         .requestMatchers("/api/**").authenticated()
+                        // nécessaire pour que Spring laisse passer les requêtes pour h2-console
                         .requestMatchers("/h2-console/**").permitAll()
+                        // nécessaire pour faire fonctionner / et les démos MVC
                         .anyRequest().permitAll()
 
                 );
         return http.build();
     }
 
+    /**
+     * Ce bean est nécessaire pour indiquer à Spring Security comment stocker les Context de Security
+     * Ici il va utiliser la session HTTP en RAM sur le serveur qui est attachée au Cookie JSESSIONID
+     * @return
+     */
     @Bean
     public SecurityContextRepository securityContextRepository() {
         return new HttpSessionSecurityContextRepository();
     }
 
+    /**
+     * Ce Bean indique à Spring que notre service (userService) est responsable du rôle de
+     * userDetailsService.
+     *
+     * Essentiellement on veut :
+     * - que quand Spring Security a besoin de UserDetails via la fonction loadUserByUsername
+     * - notre service implante cette fonction
+     * - et qu'on puisse alors trouver l'utilisateur dans notre BD
+     *
+     * Ce genre de bean est nécessaire dès qu'on veut stocker les comptes dans une BD sous
+     * notre contrôle et pas gérée par Spring Security.
+     */
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =

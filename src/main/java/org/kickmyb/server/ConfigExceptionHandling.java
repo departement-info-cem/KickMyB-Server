@@ -11,7 +11,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.nio.charset.StandardCharsets;
 
-// TODO Va intercepter toutes les exceptions et les transformer selon la méthode en réponse http
+/**
+ * Cette classe indique à Spring Boot de
+ * - intercepter toutes les exceptions qui n'auraient pas été attrapées : "@ExceptionHandler(value = {Exception.class})"
+ * - indique le prendre le nom court de la classe d'Exception encodé en UTF-8 comme corps de la réponse : "bodyOfResponse = ex.getClass().getSimpleName()"
+ * - ajoute un code d'erreur 400 soit BadRequest : "HttpStatus.BAD_REQUEST"
+ */
 
 @ControllerAdvice
 public class ConfigExceptionHandling extends ResponseEntityExceptionHandler {
