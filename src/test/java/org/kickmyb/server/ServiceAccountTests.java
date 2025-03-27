@@ -27,9 +27,6 @@ class ServiceAccountTests {
 	@Autowired
 	private ServiceAccount serviceAccount;
 
-	@Autowired
-	private ServiceTask service;
-
 	@Test
 	void testNoDuplicate() {
 		ServiceAccount.UsernameAlreadyTaken thrown =
