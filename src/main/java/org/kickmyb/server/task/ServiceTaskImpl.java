@@ -3,8 +3,10 @@ package org.kickmyb.server.task;
 import org.joda.time.DateTime;
 import org.kickmyb.server.account.MUser;
 import org.kickmyb.server.account.MUserRepository;
+import org.kickmyb.server.exceptions.TaskNotFoundException;
 import org.kickmyb.transfer.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,6 +79,25 @@ public class ServiceTaskImpl implements ServiceTask {
         user.tasks.add(t);
         repoUser.save(user);
     }
+
+    // ServiceTaskImpl.java
+
+    @Override
+    public void delete(long taskID, MUser user) throws TaskNotFoundException {
+        // Recherche la tâche uniquement si elle appartient bien à cet utilisateur
+        MTask task = user
+                .tasks.stream().filter(t->t.id == taskID).findFirst()
+                .orElseThrow(() -> new TaskNotFoundException("Task not found"));
+
+        // Suppression via Spring Data JP
+        repo.delete(task);
+
+        // Suppression de la tâche de l'utilisateur
+        user.tasks.remove(task);
+        repoUser.save(user);
+    }
+
+
 
     @Override
     public void updateProgress(long taskID, int value) {

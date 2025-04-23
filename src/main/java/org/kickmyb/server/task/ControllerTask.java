@@ -2,6 +2,7 @@ package org.kickmyb.server.task;
 
 import org.kickmyb.server.ConfigHTTP;
 import org.kickmyb.server.account.MUser;
+import org.kickmyb.server.exceptions.TaskNotFoundException;
 import org.kickmyb.transfer.AddTaskRequest;
 import org.kickmyb.transfer.HomeItemResponse;
 import org.kickmyb.transfer.TaskDetailResponse;
@@ -56,6 +57,19 @@ public class ControllerTask {
         MUser user = currentUser();
         return serviceTask.detail(id, user);
     }
+
+    // ControllerTask.java
+
+    @DeleteMapping("/api/delete/{taskID}")
+    public @ResponseBody String deleteTask(@PathVariable long taskID) throws TaskNotFoundException {
+        System.out.println("KICKB SERVER : Delete task : " + taskID);
+        ConfigHTTP.attenteArticifielle();
+        MUser user = currentUser();
+        serviceTask.delete(taskID, user);
+        return "Task deleted";
+    }
+
+
 
     /**
      * Accède au Principal stocké dans la mémoire vivre (HttpSession)

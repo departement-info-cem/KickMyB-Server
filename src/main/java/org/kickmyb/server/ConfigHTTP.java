@@ -20,7 +20,7 @@ public class ConfigHTTP
 
     // TODO replace with a proper interceptor
     public static void attenteArticifielle(){
-        try {Thread.sleep(1500);} catch (InterruptedException e) {}
+        try {Thread.sleep(500);} catch (InterruptedException e) {}
     }
 
     @Override
