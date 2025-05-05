@@ -2,9 +2,9 @@ package org.kickmyb.serveur.tache;
 
 import org.kickmyb.serveur.ConfigHTTP;
 import org.kickmyb.serveur.utilisateur.MUtilisateur;
-import org.kickmyb.transfer.AddTaskRequest;
-import org.kickmyb.transfer.HomeItemResponse;
-import org.kickmyb.transfer.TaskDetailResponse;
+import org.kickmyb.transfer.ReponseAccueilItem;
+import org.kickmyb.transfer.ReponseDetailTache;
+import org.kickmyb.transfer.RequeteAjoutTache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,16 +24,16 @@ public class ControleurTache {
     @Autowired
     private ServiceTache serviceTache;
 
-    @PostMapping(value = "/api/add", produces = "text/plain")
-    public @ResponseBody String ajout(@RequestBody AddTaskRequest request) throws ServiceTache.Empty, ServiceTache.TropCourt, ServiceTache.Existant {
-        System.out.println("KICKB SERVER : Add a task : " + request.name + " date " + request.deadline);
+    @PostMapping(value = "/tache/ajout", produces = "text/plain")
+    public @ResponseBody String ajout(@RequestBody RequeteAjoutTache requete) throws ServiceTache.Empty, ServiceTache.Existant, ServiceTache.TropCourt {
+        System.out.println("KICKB SERVER : Add a task : " + requete.nom + " date " + requete.dateLimite);
         ConfigHTTP.attenteArticifielle();
-        MUtilisateur user = utilisateurDepuisCookie();
-        serviceTache.ajouteUneTache(request, user);
+        MUtilisateur utilisateur = utilisateurDepuisCookie();
+        serviceTache.ajouteUneTache(requete, utilisateur.id);
         return "";
     }
 
-    @GetMapping(value = "/api/progress/{taskID}/{value}", produces = "text/plain")
+    @GetMapping(value = "/tache/progres/{idTache}/{valeur}", produces = "text/plain")
     public @ResponseBody String updateProgress(@PathVariable long idTache, @PathVariable int valeur) {
         System.out.println("KICKB SERVEUR : Mise à jour : " + idTache + " @" + valeur);
         ConfigHTTP.attenteArticifielle();
@@ -42,7 +42,7 @@ public class ControleurTache {
     }
 
     @GetMapping("/tache/accueil")
-    public @ResponseBody List<HomeItemResponse> accueil() {
+    public @ResponseBody List<ReponseAccueilItem> accueil() {
         System.out.println("KICKB SERVEUR : Liste des tâches cookie");
         ConfigHTTP.attenteArticifielle();
         MUtilisateur user = utilisateurDepuisCookie();
@@ -50,11 +50,11 @@ public class ControleurTache {
     }
 
     @GetMapping("/tache/detail/{id}")
-    public @ResponseBody TaskDetailResponse detail(@PathVariable long id) {
+    public @ResponseBody ReponseDetailTache detail(@PathVariable long id) {
         System.out.println("KICKB SERVEUR : Détail  " + id);
         ConfigHTTP.attenteArticifielle();
         MUtilisateur user = utilisateurDepuisCookie();
-        return serviceTache.detail(id, user);
+        return serviceTache.detail(id, user.id);
     }
 
     /**

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DepotPhoto extends JpaRepository<MPhoto, Long> {
-    Optional<MPhoto> findByTask(MTache task);
+    Optional<MPhoto> findByTache(MTache task);
 }

@@ -22,7 +22,7 @@ public class ServicePhoto {
         //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         MTache tache = repo.findById(id).get();
         try{
-            MPhoto existing = repoPics.findByTask(tache).get();
+            MPhoto existing = repoPics.findByTache(tache).get();
             repoPics.delete(existing);
         } catch(Exception e){}
         // throw an exception here to show that transactional protects against delete but not store

@@ -2,10 +2,10 @@ package org.kickmyb.serveur.photo;
 
 import org.imgscalr.Scalr;
 import org.kickmyb.serveur.ConfigHTTP;
-import org.kickmyb.serveur.utilisateur.MUtilisateur;
 import org.kickmyb.serveur.tache.ServiceTache;
-import org.kickmyb.transfer.HomeItemPhotoResponse;
-import org.kickmyb.transfer.TaskDetailPhotoResponse;
+import org.kickmyb.serveur.utilisateur.MUtilisateur;
+import org.kickmyb.transfer.ReponseAccueilItemAvecPhoto;
+import org.kickmyb.transfer.ReponseDetailTacheAvecPhoto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -60,7 +60,7 @@ public class ControleurPhoto {
 
     //Méthode utilisée pour récupérer les items de la liste des tâches avec des photos
     @GetMapping("/api/home/photo")
-    public @ResponseBody List<HomeItemPhotoResponse> homePhoto() {
+    public @ResponseBody List<ReponseAccueilItemAvecPhoto> homePhoto() {
         System.out.println("KICKB SERVER : Task list  with cookie");
         ConfigHTTP.attenteArticifielle();
         MUtilisateur user = currentUser();
@@ -69,11 +69,11 @@ public class ControleurPhoto {
 
     //Méthode utilisée pour récupérer le détail d'une tâche avec des photos
     @GetMapping("/api/detail/photo/{id}")
-    public @ResponseBody TaskDetailPhotoResponse detailPhoto(@PathVariable long id) {
+    public @ResponseBody ReponseDetailTacheAvecPhoto detailPhoto(@PathVariable long id) {
         System.out.println("KICKB SERVER : Detail  with cookie ");
         ConfigHTTP.attenteArticifielle();
         MUtilisateur user = currentUser();
-        return serviceTache.detailPhoto(id, user);
+        return serviceTache.detailPhoto(id, user.id);
     }
 
     private MUtilisateur currentUser() {

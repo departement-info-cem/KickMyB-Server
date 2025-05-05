@@ -1,17 +1,52 @@
 package org.kickmyb.serveur.utilisateur;
 
-import org.kickmyb.transfer.SignupRequest;
+import org.kickmyb.transfer.RequeteInscription;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-// extends UserDetailsService which is one of the Spring Security entry points
-public interface ServiceUtilisateur extends UserDetailsService {
+import java.util.ArrayList;
 
-    class MauvaisNomOuMotDePasse extends Exception {}
+@Component
+public class ServiceUtilisateur implements UserDetailsService {
 
-    class NomTropCourt extends Exception {}
-    class NomDejaPris extends Exception {}
-    class MotDePasseTropCourt extends Exception {}
+    public static class MauvaisNomOuMotDePasse extends Exception {}
+    public static class NomTropCourt extends Exception {}
+    public static class NomDejaPris extends Exception {}
+    public static class MotDePasseTropCourt extends Exception {}
 
-    void inscrire(SignupRequest req) throws NomTropCourt, MotDePasseTropCourt, NomDejaPris;
+    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private DepotUtilisateur userRepository;
 
+    // This one has to be there by convention to fit with Spring Security
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        MUtilisateur user = userRepository.findByNom(username.trim().toLowerCase()).get();
+        User u = new User(user.nom, user.motDePasse, new ArrayList<>());
+        return u;
+    }
+
+
+    // https://stackoverflow.com/questions/36498327/catch-dataintegrityviolationexception-in-transactional-service-method
+    @Transactional(rollbackFor = NomDejaPris.class)
+    public void inscrire(RequeteInscription req) throws NomTropCourt, MotDePasseTropCourt, NomDejaPris {
+        String username = req.nom.toLowerCase().trim();
+        if (username.length() < 2) throw new NomTropCourt();
+        if (req.motDePasse.length() < 4) throw new MotDePasseTropCourt();
+        // validation de l'unicité est faite au niveau de la BD voir MUser.java
+        try {
+            MUtilisateur p = new MUtilisateur();
+            p.nom = username;
+            p.motDePasse = passwordEncoder.encode(req.motDePasse);
+            userRepository.saveAndFlush(p);
+        } catch (DataIntegrityViolationException e) {
+            throw new NomDejaPris();
+        }
+    }
 }

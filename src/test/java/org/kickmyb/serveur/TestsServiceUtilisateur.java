@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kickmyb.serveur.utilisateur.ServiceUtilisateur;
-import org.kickmyb.transfer.SignupRequest;
+import org.kickmyb.transfer.RequeteInscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,9 +28,9 @@ class TestsServiceUtilisateur {
 	void testNoDuplicate() {
 		ServiceUtilisateur.NomDejaPris thrown =
 				Assertions.assertThrows(ServiceUtilisateur.NomDejaPris.class, () -> {
-					SignupRequest req = new SignupRequest();
-					req.username = "test";
-					req.password = "test";
+					RequeteInscription req = new RequeteInscription();
+					req.nom = "test";
+					req.motDePasse = "test";
 					serviceAccount.inscrire(req);
 					serviceAccount.inscrire(req);
 		}, "Username Taken was expected");
@@ -39,9 +39,9 @@ class TestsServiceUtilisateur {
 	@Test
 	void testInscrireAndSignin() throws ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris {
 		{
-			SignupRequest req = new SignupRequest();
-			req.username = "marie";
-			req.password = "test";
+			RequeteInscription req = new RequeteInscription();
+			req.nom = "marie";
+			req.motDePasse = "test";
 			serviceAccount.inscrire(req);
 		}
 		{

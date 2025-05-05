@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>com.github.departement-info-cem</groupId>
 			<artifactId>KickMyB-Library</artifactId>
-			<version>31d81e984312861329d96292055371b6be46755c</version>
+			<version>0de33a112916bf42094c01390c790cba5518951b</version>
 		</dependency>
 
 		<dependency>

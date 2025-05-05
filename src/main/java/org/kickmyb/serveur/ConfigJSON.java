@@ -1,7 +1,7 @@
 package org.kickmyb.serveur;
 
 import com.google.gson.Gson;
-import org.kickmyb.CustomGson;
+import org.kickmyb.GsonPersonnalise;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class ConfigJSON {
 
     @Bean
     public Gson gson() {
-        return CustomGson.getIt();
+        return GsonPersonnalise.gsonPerso();
     }
 
 }

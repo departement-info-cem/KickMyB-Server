@@ -10,5 +10,5 @@ public interface DepotUtilisateur extends JpaRepository<MUtilisateur, Long> {
 
     // Un peu de magie, la méthode est générée par Spring Data JPA.
     // https://docs.spring.io/spring-data/data-commons/docs/1.6.1.RELEASE/reference/html/repositories.html
-    Optional<MUtilisateur> findByUsername(String nomUtilisateur);
+    Optional<MUtilisateur> findByNom(String nomUtilisateur);
 }

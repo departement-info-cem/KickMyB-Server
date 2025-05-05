@@ -16,8 +16,8 @@ public class MTache {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
-    public Date creationDate;
-    public Date deadline;
+    public Date dateCreation;
+    public Date dateLimite;
 
 
     @Convert(converter = Encrypteur.class)  // TODO exemple stupide, servirait plutôt pour NAS ou numero carte crédit
