@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,22 +21,26 @@ public class ServiceTaskImpl implements ServiceTask {
 
     @Autowired
     MUserRepository repoUser;
-    @Autowired MTaskRepository repo;
-    @Autowired MProgressEventRepository repoProgressEvent;
+    @Autowired
+    MTaskRepository repo;
+    @Autowired
+    MProgressEventRepository repoProgressEvent;
 
-    private int percentage(Date start, Date current, Date end){
+    private int percentage(Date start, Date current, Date end) {
         if (current.after(end)) return 100;
         long total = end.getTime() - start.getTime();
         long spent = current.getTime() - start.getTime();
-        double percentage =  100.0 * spent / total;
+        double percentage = 100.0 * spent / total;
         // TODO si end est avant start c'est tout cassé.
-        return Math.max((int) percentage, 0 );
+        return Math.max((int) percentage, 0);
     }
 
     @Override
-    public TaskDetailResponse detail(Long id, MUser user) {
+    public TaskDetailResponse detail(Long taskID, MUser user) throws TaskNotFoundException {
         //MTask element = user.tasks.stream().filter(elt -> elt.id == id).findFirst().get();
-        MTask element = repo.findById(id).get();
+        MTask element = user
+                .tasks.stream().filter(t -> t.id == taskID).findFirst()
+                .orElseThrow(() -> new TaskNotFoundException("Task not found"));
         TaskDetailResponse response = new TaskDetailResponse();
         response.name = element.name;
         response.id = element.id;
@@ -86,7 +91,7 @@ public class ServiceTaskImpl implements ServiceTask {
     public void delete(long taskID, MUser user) throws TaskNotFoundException {
         // Recherche la tâche uniquement si elle appartient bien à cet utilisateur
         MTask task = user
-                .tasks.stream().filter(t->t.id == taskID).findFirst()
+                .tasks.stream().filter(t -> t.id == taskID).findFirst()
                 .orElseThrow(() -> new TaskNotFoundException("Task not found"));
 
         // Suppression via Spring Data JP
@@ -98,18 +103,21 @@ public class ServiceTaskImpl implements ServiceTask {
     }
 
 
-
     @Override
-    public void updateProgress(long taskID, int value) {
-        MTask element = repo.findById(taskID).get();
+    public void updateProgress(long taskID, int value, MUser user) throws TaskNotFoundException {
+        MTask element = user
+                .tasks.stream().filter(t -> t.id == taskID).findFirst()
+                .orElseThrow(() -> new TaskNotFoundException("Task not found"));
         // TODO validate value is between 0 and 100
-        MProgressEvent pe= new MProgressEvent();
+        MProgressEvent pe = new MProgressEvent();
         pe.resultPercentage = value;
-        pe.completed = value ==100;
+        pe.completed = value == 100;
         pe.timestamp = DateTime.now().toDate();
         repoProgressEvent.save(pe);
         element.events.add(pe);
         repo.save(element);
+
+
     }
 
     @Override
@@ -129,7 +137,7 @@ public class ServiceTaskImpl implements ServiceTask {
     }
 
     private int percentageDone(MTask t) {
-        return t.events.isEmpty()? 0 : t.events.get(t.events.size()-1).resultPercentage;
+        return t.events.isEmpty() ? 0 : t.events.get(t.events.size() - 1).resultPercentage;
     }
 
     // TODO try to see how to make an injection attack example by directly exposing data from DB
@@ -137,10 +145,10 @@ public class ServiceTaskImpl implements ServiceTask {
     public String index() {
         String res = "<html>";
         res += "<div>Index :</div>";
-        for (MUser u: repoUser.findAll()) {
-            res += "<div>" + u.username  ;
+        for (MUser u : repoUser.findAll()) {
+            res += "<div>" + u.username;
             for (MTask t : u.tasks) {
-                res += "<div>" + t.name  + "</div>";
+                res += "<div>" + t.name + "</div>";
             }
             res += "</div>";
         }
@@ -164,7 +172,7 @@ public class ServiceTaskImpl implements ServiceTask {
             r.deadline = t.deadline;
             r.percentageTimeSpent = percentage(t.creationDate, new Date(), t.deadline);
             r.name = t.name;
-            if(t.photo != null) {
+            if (t.photo != null) {
                 r.photoId = t.photo.id;
             } else {
                 r.photoId = 0L;
@@ -192,7 +200,7 @@ public class ServiceTaskImpl implements ServiceTask {
             transfer.timestamp = e.timestamp;
             response.events.add(transfer);
         }
-        if(element.photo != null) {
+        if (element.photo != null) {
             response.photoId = element.photo.id;
         } else {
             response.photoId = 0L;

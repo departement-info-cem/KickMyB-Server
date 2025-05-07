@@ -38,7 +38,8 @@ public class ControllerTask {
     public @ResponseBody String updateProgress(@PathVariable long taskID, @PathVariable int value) {
         System.out.println("KICKB SERVER : Progress for task : " + taskID + " @" + value);
         ConfigHTTP.attenteArticifielle();
-        serviceTask.updateProgress(taskID, value);
+        MUser user = currentUser();
+        serviceTask.updateProgress(taskID, value, user);
         return "";
     }
 
