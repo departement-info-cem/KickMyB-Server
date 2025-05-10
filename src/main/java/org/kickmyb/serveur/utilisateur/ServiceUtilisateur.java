@@ -20,6 +20,7 @@ public class ServiceUtilisateur implements UserDetailsService {
     public static class NomTropCourt extends Exception {}
     public static class NomDejaPris extends Exception {}
     public static class MotDePasseTropCourt extends Exception {}
+    public static class MotsDePasseDifferents extends Exception {}
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private DepotUtilisateur userRepository;
@@ -35,8 +36,10 @@ public class ServiceUtilisateur implements UserDetailsService {
 
     // https://stackoverflow.com/questions/36498327/catch-dataintegrityviolationexception-in-transactional-service-method
     @Transactional(rollbackFor = NomDejaPris.class)
-    public void inscrire(RequeteInscription req) throws NomTropCourt, MotDePasseTropCourt, NomDejaPris {
+    public void inscrire(RequeteInscription req)
+            throws NomTropCourt, MotDePasseTropCourt, NomDejaPris, MotsDePasseDifferents {
         String username = req.nom.toLowerCase().trim();
+        if (!req.motDePasse.equals(req.confirmationMotDePasse)) throw new MotsDePasseDifferents();
         if (username.length() < 2) throw new NomTropCourt();
         if (req.motDePasse.length() < 4) throw new MotDePasseTropCourt();
         // validation de l'unicité est faite au niveau de la BD voir MUser.java

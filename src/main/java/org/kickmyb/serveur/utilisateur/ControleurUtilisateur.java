@@ -60,7 +60,12 @@ public class ControleurUtilisateur {
     }
 
     @PostMapping("/id/inscription")
-    public @ResponseBody ReponseConnexion inscription(@RequestBody RequeteInscription s) throws ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MauvaisNomOuMotDePasse {
+    public @ResponseBody ReponseConnexion inscription(@RequestBody RequeteInscription s)
+            throws ServiceUtilisateur.NomTropCourt,
+            ServiceUtilisateur.MotDePasseTropCourt,
+            ServiceUtilisateur.NomDejaPris,
+            ServiceUtilisateur.MauvaisNomOuMotDePasse,
+            ServiceUtilisateur.MotsDePasseDifferents {
         System.out.println("ID : demande connexion " + s.nom);
         ConfigHTTP.attenteArticifielle();
         serviceUtilisateur.inscrire(s);
