@@ -18,7 +18,6 @@
                 Incluant la documentation de l'API
             </h2>
             <p th:text="|Yo, ${message}!|" />
-
         </div>
     </div>
 </section>
@@ -30,79 +29,75 @@
         <div class="columns is-multiline">
             <div class="column is-one-third">
                 <div class="box">
-                    <h2 class="subtitle">Créer un compte :: POST /api/id/signup</h2>
-                    <pre><code class="json">{
-  "username" : "MrPipo",
-  "password" : "pipo"
-}</code></pre>
+                    <h2 class="subtitle">Créer un compte :: POST /id/inscription</h2>
+                    <pre><code class="json">
+{
+  "nom" : "MrPipo",
+  "motDePasse" : "pipo",
+  "confirmationMotDePasse" : "pipo"
+}
+                    </code></pre>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
-                    <h2 class="subtitle">Se connecter avec un compte existant :: POST /api/id/signin</h2>
-                    <pre><code class="json">{
-  "username" : "MrPipo",
-  "password" : "pipo"
-}</code></pre>
+                    <h2 class="subtitle">Se connecter avec un compte existant :: POST /id/connexion</h2>
+                    <pre><code class="json">
+{
+  "nom" : "MrPipo",
+  "motDePasse" : "pipo"
+}
+                    </code></pre>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
-                    <h2 class="subtitle">Se déconnecter  :: POST /api/id/signout</h2>
+                    <h2 class="subtitle">Se déconnecter :: POST /id/deconnexion</h2>
                     <pre><code class="json"></code></pre>
                 </div>
             </div>
-
-
         </div>
     </div>
 </section>
 
+<section class="section">
+    <div class="container">
+        <h1 class="title">API pour les tâches</h1>
 
-    <section class="section">
-        <div class="container">
-            <h1 class="title">API pour les tâches</h1>
-
-            <div class="columns is-multiline">
-
-
-
-
-                <div class="column is-one-third">
-                    <div class="box">
-                        <h2 class="subtitle">Ajouter une tâche au compte actuel (nécessite d'être connecté) :: POST /api/add</h2>
-                        <pre><code class="json">{
+        <div class="columns is-multiline">
+            <div class="column is-one-third">
+                <div class="box">
+                    <h2 class="subtitle">Ajouter une tâche au compte actuel (nécessite d'être connecté) :: POST /tache/ajout</h2>
+                    <pre><code class="json">
+{
   "name" : "test",
   "deadline" : "2069-05-24T12:12:12"
-}</code></pre>
-                    </div>
-                </div>
+}
 
-                <div class="column is-one-third">
-                    <div class="box">
-                        <h2 class="subtitle">Voir les tâches du compte actuel (nécessite d'être connecté) :: GET /api/home</h2>
-                        <pre><code class="json"></code></pre>
-                    </div>
+                    </code></pre>
                 </div>
-                <div class="column is-one-third">
-                    <div class="box">
-                        <h2 class="subtitle">voir le détail d'une tâche :: GET /api/detail/{id}</h2>
-                        <pre><code class="json"></code></pre>
-                    </div>
-                </div>
+            </div>
 
-                <div class="column is-one-third">
-                    <div class="box">
-                        <h2 class="subtitle">mettre à jour le % d'avancement :: GET /api/progress/{id}/{valeur}</h2>
-                        id est le l'identifiant de la tâche et valeur est la nouvelle valeur d'avancement
-                        <pre><code class="json"></code></pre>
-                    </div>
+            <div class="column is-one-third">
+                <div class="box">
+                    <h2 class="subtitle">Voir les tâches du compte actuel (nécessite d'être connecté) :: GET /tache/accueil</h2>
+                </div>
+            </div>
+
+            <div class="column is-one-third">
+                <div class="box">
+                    <h2 class="subtitle">Voir le détail d'une tâche :: GET /tache/detail/{id}</h2>
+                </div>
+                <div class="box">
+                    <h2 class="subtitle">Mettre à jour le % d'avancement :: GET /tache/progres/{id}/{valeur}</h2>
+                    <p>id est l'identifiant de la tâche et valeur est la nouvelle valeur d'avancement.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 </body>
 </html>
