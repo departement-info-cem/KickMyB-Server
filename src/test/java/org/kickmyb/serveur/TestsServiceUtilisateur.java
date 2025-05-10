@@ -31,17 +31,19 @@ class TestsServiceUtilisateur {
 					RequeteInscription req = new RequeteInscription();
 					req.nom = "test";
 					req.motDePasse = "test";
+					req.confirmationMotDePasse = "test";
 					serviceAccount.inscrire(req);
 					serviceAccount.inscrire(req);
 		}, "Username Taken was expected");
 	}
 
 	@Test
-	void testInscrireAndSignin() throws ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris {
+	void testInscrireAndSignin() throws ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
 		{
 			RequeteInscription req = new RequeteInscription();
 			req.nom = "marie";
 			req.motDePasse = "test";
+			req.confirmationMotDePasse = "test";
 			serviceAccount.inscrire(req);
 		}
 		{

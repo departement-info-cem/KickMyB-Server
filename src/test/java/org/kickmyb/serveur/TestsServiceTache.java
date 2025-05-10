@@ -34,12 +34,13 @@ class TestsServiceTache {
     private ServiceUtilisateur serviceAccount;
 
     @Test
-    void testAjouterTacheOk() throws ServiceTache.Empty, ServiceTache.Existant, ServiceTache.TropCourt, ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris {
+    void testAjouterTacheOk() throws ServiceTache.Empty, ServiceTache.Existant, ServiceTache.TropCourt, ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
 
         // on crée un compte
         RequeteInscription req = new RequeteInscription();
         req.nom = "alice";
         req.motDePasse = "Passw0rd!";
+        req.confirmationMotDePasse = "Passw0rd!";
         serviceAccount.inscrire(req);
 
         // on récupère l'utilisateur
@@ -59,12 +60,13 @@ class TestsServiceTache {
 
     @Test
     void testAjouterTacheNomVideKo() throws ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt,
-            ServiceUtilisateur.NomDejaPris {
+            ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
 
         // on crée un compte
         RequeteInscription req = new RequeteInscription();
         req.nom = "alice";
         req.motDePasse = "Passw0rd!";
+        req.confirmationMotDePasse = "Passw0rd!";
         serviceAccount.inscrire(req);
 
         // on récupère l'utilisateur
@@ -86,12 +88,13 @@ class TestsServiceTache {
 
     @Test
     void testAjouterTacheNomTropCourtKo() throws ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt,
-            ServiceUtilisateur.NomDejaPris {
+            ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
 
         // on crée un compte
         RequeteInscription req = new RequeteInscription();
         req.nom = "alice";
         req.motDePasse = "Passw0rd!";
+        req.confirmationMotDePasse = "Passw0rd!";
         serviceAccount.inscrire(req);
 
         // on récupère l'utilisateur
@@ -114,12 +117,13 @@ class TestsServiceTache {
     @Test
     void testAjouterTacheNomExistantKo() throws ServiceTache.Empty, ServiceTache.TropCourt, ServiceTache.Existant,
             ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt,
-            ServiceUtilisateur.NomDejaPris {
+            ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
 
         // on crée un compte
         RequeteInscription req = new RequeteInscription();
         req.nom = "alice";
         req.motDePasse = "Passw0rd!";
+        req.confirmationMotDePasse = "Passw0rd!";
         serviceAccount.inscrire(req);
 
         // on récupère l'utilisateur
