@@ -13,30 +13,30 @@ import java.io.IOException;
 public class ServicePhoto {
 
     // Spring va automatiquement chercher la classe annotée @Component ou @Repository qui correspond à ce type
-    @Autowired private DepotPhoto repoPics;
-    @Autowired private DepotTache repo;
+    @Autowired private DepotPhoto depotPhoto;
+    @Autowired private DepotTache depotTache;
 
     // TODO show what happens when transactional is removed by throwing an exception between writes??
     @Transactional
-    public MPhoto stockerLeFichier(MultipartFile file, Long id) throws IOException {
-        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        MTache tache = repo.findById(id).get();
+    public MPhoto stockerLeFichier(MultipartFile fichier, Long id) throws IOException {
+        //String fileName = StringUtils.cleanPath(fichier.getOriginalFilename());
+        MTache tache = depotTache.findById(id).get();
         try{
-            MPhoto existing = repoPics.findByTache(tache).get();
-            repoPics.delete(existing);
+            MPhoto existant = depotPhoto.findByTache(tache).get();
+            depotPhoto.delete(existant);
         } catch(Exception e){}
         // throw an exception here to show that transactional protects against delete but not store
         MPhoto photo = new MPhoto();
-        photo.blob = file.getBytes();
-        photo.contentType = file.getContentType();
+        photo.blob = fichier.getBytes();
+        photo.typeContenu = fichier.getContentType();
         photo.tache = tache;
-        photo = repoPics.save(photo);
+        photo = depotPhoto.save(photo);
         tache.photo = photo;
-        repo.save(tache);
+        depotTache.save(tache);
         return photo;
     }
 
     public MPhoto chargerFichier(Long id) {
-        return repoPics.findById(id).get();
+        return depotPhoto.findById(id).get();
     }
 }

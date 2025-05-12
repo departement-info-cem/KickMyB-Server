@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository;
 // Mostly used to have creation method, could use cascading
 
 @Repository
-public interface MProgressEventRepository extends JpaRepository<MProgressEvent, Long> { }
+public interface MAvancementRepository extends JpaRepository<MAvancement, Long> { }

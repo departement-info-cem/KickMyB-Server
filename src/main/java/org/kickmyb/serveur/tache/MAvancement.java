@@ -11,14 +11,12 @@ import java.util.Date;
  * Created by joris on 15-09-15.
  */
 @Entity
-public class MProgressEvent {
+public class MAvancement {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     public Long id;
-    public int deltaPercentage;
-    public int resultPercentage;
-    public boolean completed;
-    public Date timestamp;
+    public int nouveauPourcentage;
+    public Date date;
 
 }

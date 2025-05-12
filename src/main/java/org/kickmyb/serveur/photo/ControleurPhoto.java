@@ -1,7 +1,6 @@
 package org.kickmyb.serveur.photo;
 
 import org.imgscalr.Scalr;
-import org.kickmyb.serveur.ConfigHTTP;
 import org.kickmyb.serveur.tache.ServiceTache;
 import org.kickmyb.serveur.utilisateur.MUtilisateur;
 import org.kickmyb.transfer.ReponseAccueilItemAvecPhoto;
@@ -34,7 +33,6 @@ public class ControleurPhoto {
     @PostMapping(value = "/file", produces = "text/plain")
     public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("taskID") Long taskID) throws IOException {
         System.out.println("PHOTO : upload request " + file.getContentType());
-        ConfigHTTP.attenteArticifielle();
         MPhoto p = servicePhoto.stockerLeFichier(file, taskID);
         return ResponseEntity.status(HttpStatus.OK).body(p.id.toString());
     }
@@ -42,7 +40,6 @@ public class ControleurPhoto {
     @GetMapping("/file/{id}")
     public ResponseEntity<byte[]> taskPhoto(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
         System.out.println("PHOTO : download request " + id + " width " + maxWidth);
-        ConfigHTTP.attenteArticifielle();
         MPhoto pic = servicePhoto.chargerFichier(id);
         if (maxWidth == null) { // no resizing
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(pic.blob);
@@ -62,7 +59,6 @@ public class ControleurPhoto {
     @GetMapping("/api/home/photo")
     public @ResponseBody List<ReponseAccueilItemAvecPhoto> homePhoto() {
         System.out.println("KICKB SERVER : Task list  with cookie");
-        ConfigHTTP.attenteArticifielle();
         MUtilisateur user = currentUser();
         return serviceTache.homePhoto(user.id);
     }
@@ -71,7 +67,6 @@ public class ControleurPhoto {
     @GetMapping("/api/detail/photo/{id}")
     public @ResponseBody ReponseDetailTacheAvecPhoto detailPhoto(@PathVariable long id) {
         System.out.println("KICKB SERVER : Detail  with cookie ");
-        ConfigHTTP.attenteArticifielle();
         MUtilisateur user = currentUser();
         return serviceTache.detailPhoto(id, user.id);
     }

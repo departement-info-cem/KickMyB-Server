@@ -1,6 +1,5 @@
 package org.kickmyb.serveur.tache;
 
-import org.kickmyb.serveur.ConfigHTTP;
 import org.kickmyb.serveur.utilisateur.MUtilisateur;
 import org.kickmyb.transfer.ReponseAccueilItem;
 import org.kickmyb.transfer.ReponseDetailTache;
@@ -26,8 +25,7 @@ public class ControleurTache {
 
     @PostMapping(value = "/tache/ajout", produces = "text/plain")
     public @ResponseBody String ajout(@RequestBody RequeteAjoutTache requete) throws ServiceTache.Empty, ServiceTache.Existant, ServiceTache.TropCourt {
-        System.out.println("KICKB SERVER : Add a task : " + requete.nom + " date " + requete.dateLimite);
-        ConfigHTTP.attenteArticifielle();
+        System.out.println("KICKB SERVER : Ajout d'une tâche : " + requete.nom + ", date " + requete.dateLimite);
         MUtilisateur utilisateur = utilisateurDepuisCookie();
         serviceTache.ajouteUneTache(requete, utilisateur.id);
         return "";
@@ -36,23 +34,20 @@ public class ControleurTache {
     @GetMapping(value = "/tache/progres/{idTache}/{valeur}", produces = "text/plain")
     public @ResponseBody String updateProgress(@PathVariable long idTache, @PathVariable int valeur) {
         System.out.println("KICKB SERVEUR : Mise à jour : " + idTache + " @" + valeur);
-        ConfigHTTP.attenteArticifielle();
         serviceTache.miseAJourProgres(idTache, valeur);
         return "";
     }
 
     @GetMapping("/tache/accueil")
     public @ResponseBody List<ReponseAccueilItem> accueil() {
-        System.out.println("KICKB SERVEUR : Liste des tâches cookie");
-        ConfigHTTP.attenteArticifielle();
         MUtilisateur user = utilisateurDepuisCookie();
+        System.out.println("KICKB SERVEUR : Liste des tâches pour l'utilisateur " + user.nom);
         return serviceTache.accueil(user.id);
     }
 
     @GetMapping("/tache/detail/{id}")
     public @ResponseBody ReponseDetailTache detail(@PathVariable long id) {
         System.out.println("KICKB SERVEUR : Détail  " + id);
-        ConfigHTTP.attenteArticifielle();
         MUtilisateur user = utilisateurDepuisCookie();
         return serviceTache.detail(id, user.id);
     }

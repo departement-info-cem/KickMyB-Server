@@ -1,4 +1,4 @@
-package org.kickmyb.serveur;
+package org.kickmyb.serveur.config;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

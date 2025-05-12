@@ -20,10 +20,10 @@ public class ControllerDemoMVC {
     // il s'agit d'un template thymeleaf
     // on lui passe un objet Model qui contient des attributs
     @GetMapping("/")
-    public String index(Model model) throws IOException {
+    public String index(Model modèle) throws IOException {
         // plein de calculs ici qui implique la BD des appels serveurs tiers
-
-        model.addAttribute("message", "Salut le monde!");
+        // finalement on charge un gabarit thymeleaf qui reçoit le modèle
+        modèle.addAttribute("message", "Salut le monde!");
         return "index";
     }
 
@@ -33,14 +33,6 @@ public class ControllerDemoMVC {
     @GetMapping(value = "/index", produces = "text/html")
     public @ResponseBody String htmlIndex() {
         return serviceTache.index();
-    }
-
-    /**
-     * Tester votre serveur
-     */
-    @GetMapping(value = "/test", produces = "text/html")
-    public @ResponseBody String test() {
-        return "SALUT";
     }
 
 }

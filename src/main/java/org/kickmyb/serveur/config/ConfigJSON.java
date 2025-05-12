@@ -1,4 +1,4 @@
-package org.kickmyb.serveur;
+package org.kickmyb.serveur.config;
 
 import com.google.gson.Gson;
 import org.kickmyb.GsonPersonnalise;

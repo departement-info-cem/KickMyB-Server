@@ -13,7 +13,7 @@ public class MPhoto {
 
     @Lob
     public byte[] blob;
-    @Basic  public String contentType;
+    @Basic  public String typeContenu;
     @OneToOne
     public MTache tache;
 }

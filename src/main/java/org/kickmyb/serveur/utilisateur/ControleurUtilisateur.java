@@ -1,9 +1,7 @@
 package org.kickmyb.serveur.utilisateur;
 
-import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.kickmyb.serveur.ConfigHTTP;
 import org.kickmyb.transfer.ReponseConnexion;
 import org.kickmyb.transfer.RequeteConnexion;
 import org.kickmyb.transfer.RequeteInscription;
@@ -15,9 +13,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 // Modifié pour Spring Boot 3 https://docs.spring.io/spring-security/reference/servlet/authentication/persistence.html
@@ -30,8 +26,6 @@ public class ControleurUtilisateur {
     private AuthenticationManager authManager;
     @Autowired
     private ServiceUtilisateur serviceUtilisateur;
-    @Autowired
-    private Gson gson;
 
     private @Autowired HttpServletRequest request;
     private @Autowired HttpServletResponse response;
@@ -40,7 +34,6 @@ public class ControleurUtilisateur {
     @PostMapping("/id/connexion")
     public @ResponseBody ReponseConnexion connexion(@RequestBody RequeteConnexion s) throws ServiceUtilisateur.MauvaisNomOuMotDePasse {
         System.out.println("ID : Demande connexion " + s.nom);
-        ConfigHTTP.attenteArticifielle();
         s.nom = s.nom.trim().toLowerCase();
         try {
             Authentication auth = new UsernamePasswordAuthenticationToken(s.nom, s.motDePasse);
@@ -67,7 +60,6 @@ public class ControleurUtilisateur {
             ServiceUtilisateur.MauvaisNomOuMotDePasse,
             ServiceUtilisateur.MotsDePasseDifferents {
         System.out.println("ID : demande connexion " + s.nom);
-        ConfigHTTP.attenteArticifielle();
         serviceUtilisateur.inscrire(s);
         RequeteConnexion req = new RequeteConnexion();
         req.nom = s.nom;
@@ -78,8 +70,7 @@ public class ControleurUtilisateur {
     @PostMapping(value = "/id/deconnexion", produces = "plain/text")
     public @ResponseBody String deconnexion() {
         System.out.println("ID : Demande déconnexion ");
-        ConfigHTTP.attenteArticifielle();
-        // clear the authentication in the session-based context
+        // supprime le contexte de sécurité de la session
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(null);
         SecurityContextHolder.setContext(context);

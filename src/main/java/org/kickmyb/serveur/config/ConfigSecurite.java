@@ -1,4 +1,4 @@
-package org.kickmyb.serveur;
+package org.kickmyb.serveur.config;
 
 import org.kickmyb.serveur.utilisateur.ServiceUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;

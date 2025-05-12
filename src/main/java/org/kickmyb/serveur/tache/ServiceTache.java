@@ -24,7 +24,8 @@ public class ServiceTache  {
     DepotUtilisateur repoUser;
     @Autowired
     DepotTache repo;
-    @Autowired MProgressEventRepository repoProgressEvent;
+    @Autowired
+    MAvancementRepository repoProgressEvent;
 
     private int calculPourcentageTemps(Date start, Date current, Date end){
         if (current.after(end)) return 100;
@@ -40,7 +41,7 @@ public class ServiceTache  {
         //MTask element = user.tasks.stream().filter(elt -> elt.id == id).findFirst().get();
         MTache element = repo.findById(id).get();
         ReponseDetailTache response = new ReponseDetailTache();
-        response.nom = element.name;
+        response.nom = element.nom;
         response.id = element.id;
         // calcul le temps écoulé en pourcentage
         response.pourcentageTemps = calculPourcentageTemps(element.dateCreation, new Date(), element.dateLimite);
@@ -48,10 +49,10 @@ public class ServiceTache  {
         response.pourcentageAvancement = calculPourcentageAvancement(element);
         response.dateLimite = element.dateLimite;
         response.changements = new ArrayList<>();
-        for (MProgressEvent e : element.events) {
+        for (MAvancement e : element.avancements) {
             ChangementAvancement transfer = new ChangementAvancement();
-            transfer.valeur = e.resultPercentage;
-            transfer.dateChangement = e.timestamp;
+            transfer.valeur = e.nouveauPourcentage;
+            transfer.dateChangement = e.date;
             response.changements.add(transfer);
         }
         return response;
@@ -67,11 +68,11 @@ public class ServiceTache  {
         if (req.nom.trim().length() < 2) throw new TropCourt();
         // valider si le nom existe déjà
         for (MTache b : utilisateur.taches) {
-            if (b.name.equalsIgnoreCase(req.nom)) throw new Existant();
+            if (b.nom.equalsIgnoreCase(req.nom)) throw new Existant();
         }
         // tout est beau, on crée
         MTache t = new MTache();
-        t.name = req.nom;
+        t.nom = req.nom;
         t.dateCreation = DateTime.now().toDate();
         if (req.dateLimite == null) {
             t.dateLimite = DateTime.now().plusDays(7).toDate();
@@ -85,13 +86,14 @@ public class ServiceTache  {
 
     public void miseAJourProgres(long taskID, int value) {
         MTache element = repo.findById(taskID).get();
-        // TODO validate value is between 0 and 100
-        MProgressEvent pe= new MProgressEvent();
-        pe.resultPercentage = value;
-        pe.completed = value ==100;
-        pe.timestamp = DateTime.now().toDate();
+        if (value < 0 || value > 100) {
+            throw new IllegalArgumentException("Valeur entre 0 et 100");
+        }
+        MAvancement pe= new MAvancement();
+        pe.nouveauPourcentage = value;
+        pe.date = DateTime.now().toDate();
         repoProgressEvent.save(pe);
-        element.events.add(pe);
+        element.avancements.add(pe);
         repo.save(element);
     }
 
@@ -104,14 +106,14 @@ public class ServiceTache  {
             r.pourcentageAvancement = calculPourcentageAvancement(t);
             r.dateLimite = t.dateLimite;
             r.pourcentageTemps = calculPourcentageTemps(t.dateCreation, new Date(), t.dateLimite);
-            r.nom = t.name;
+            r.nom = t.nom;
             res.add(r);
         }
         return res;
     }
 
     private int calculPourcentageAvancement(MTache t) {
-        return t.events.isEmpty()? 0 : t.events.get(t.events.size()-1).resultPercentage;
+        return t.avancements.isEmpty()? 0 : t.avancements.getLast().nouveauPourcentage;
     }
 
     // TODO try to see how to make an injection attack example by directly exposing data from DB
@@ -121,7 +123,7 @@ public class ServiceTache  {
         for (MUtilisateur u: repoUser.findAll()) {
             res += "<div>" + u.nom;
             for (MTache t : u.taches) {
-                res += "<div>" + t.name  + "</div>";
+                res += "<div>" + t.nom + "</div>";
             }
             res += "</div>";
         }
@@ -142,7 +144,7 @@ public class ServiceTache  {
             r.pourcentageAvancement = calculPourcentageAvancement(t);
             r.dateLimite = t.dateLimite;
             r.pourcentageTemps = calculPourcentageTemps(t.dateCreation, new Date(), t.dateLimite);
-            r.nom = t.name;
+            r.nom = t.nom;
             if(t.photo != null) {
                 r.idPhoto = t.photo.id;
             } else {
@@ -154,29 +156,29 @@ public class ServiceTache  {
     }
 
     public ReponseDetailTacheAvecPhoto detailPhoto(Long id, Long idUtilisateur) {
-        MUtilisateur user = repoUser.findById(idUtilisateur).get();
-        MTache element = user.taches.stream().filter(elt -> elt.id == id).findFirst().get();
-        ReponseDetailTacheAvecPhoto response = new ReponseDetailTacheAvecPhoto();
-        response.nom = element.name;
-        response.id = element.id;
+        MUtilisateur utilisateur = repoUser.findById(idUtilisateur).get();
+        MTache element = utilisateur.taches.stream().filter(elt -> elt.id == id).findFirst().get();
+        ReponseDetailTacheAvecPhoto reponse = new ReponseDetailTacheAvecPhoto();
+        reponse.nom = element.nom;
+        reponse.id = element.id;
         // calcul le temps écoulé en pourcentage
-        response.pourcentageTemps = calculPourcentageTemps(element.dateCreation, new Date(), element.dateLimite);
+        reponse.pourcentageTemps = calculPourcentageTemps(element.dateCreation, new Date(), element.dateLimite);
         // aller chercher le dernier événement de progrès
-        response.pourcentageAvancement = calculPourcentageAvancement(element);
-        response.dateLimite = element.dateLimite;
-        response.changements = new ArrayList<>();
-        for (MProgressEvent e : element.events) {
+        reponse.pourcentageAvancement = calculPourcentageAvancement(element);
+        reponse.dateLimite = element.dateLimite;
+        reponse.changements = new ArrayList<>();
+        for (MAvancement e : element.avancements) {
             ChangementAvancement transfer = new ChangementAvancement();
-            transfer.valeur = e.resultPercentage;
-            transfer.dateChangement = e.timestamp;
-            response.changements.add(transfer);
+            transfer.valeur = e.nouveauPourcentage;
+            transfer.dateChangement = e.date;
+            reponse.changements.add(transfer);
         }
         if(element.photo != null) {
-            response.photoId = element.photo.id;
+            reponse.photoId = element.photo.id;
         } else {
-            response.photoId = 0L;
+            reponse.photoId = 0L;
         }
-        return response;
+        return reponse;
     }
 
 }
