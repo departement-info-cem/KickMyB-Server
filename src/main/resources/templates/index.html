@@ -22,45 +22,6 @@
     </div>
 </section>
 
-<section class="section">
-    <div class="container">
-        <h1 class="title">API pour les comptes</h1>
-
-        <div class="columns is-multiline">
-            <div class="column is-one-third">
-                <div class="box">
-                    <h2 class="subtitle">Créer un compte :: POST /id/inscription</h2>
-                    <pre><code class="json">
-{
-  "nom" : "MrPipo",
-  "motDePasse" : "pipo",
-  "confirmationMotDePasse" : "pipo"
-}
-                    </code></pre>
-                </div>
-            </div>
-
-            <div class="column is-one-third">
-                <div class="box">
-                    <h2 class="subtitle">Se connecter avec un compte existant :: POST /id/connexion</h2>
-                    <pre><code class="json">
-{
-  "nom" : "MrPipo",
-  "motDePasse" : "pipo"
-}
-                    </code></pre>
-                </div>
-            </div>
-
-            <div class="column is-one-third">
-                <div class="box">
-                    <h2 class="subtitle">Se déconnecter :: POST /id/deconnexion</h2>
-                    <pre><code class="json"></code></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <section class="section">
     <div class="container">
@@ -69,30 +30,40 @@
         <div class="columns is-multiline">
             <div class="column is-one-third">
                 <div class="box">
-                    <h2 class="subtitle">Ajouter une tâche au compte actuel (nécessite d'être connecté) :: POST /tache/ajout</h2>
-                    <pre><code class="json">
-{
-  "name" : "test",
-  "deadline" : "2069-05-24T12:12:12"
-}
-
-                    </code></pre>
+                    <h2 class="subtitle">Documentation Swagger pour le serveur</h2>
+                    <a href="swagger-ui/index.html">Page HTML</a>
+                    <br>
+                    <a href="v3/api-docs">Fichier JSON</a>
+                    <br>
+                    <a href="v3/api-docs.yaml">Fichier YAML</a>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
-                    <h2 class="subtitle">Voir les tâches du compte actuel (nécessite d'être connecté) :: GET /tache/accueil</h2>
+                    <h2 class="subtitle">Lien vers la console h2</h2>
+                    <a href="/h2-console">Console d'admin de la BD</a>
+                    <ul>
+                        <li>changer JDBC URL par jdbc:h2:file:./db/proditos </li>
+                        <li>User Name: sa</li>
+                        <li>Password: (vide)</li>
+                        <li>Appuyer sur Connect</li>
+                    </ul>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
-                    <h2 class="subtitle">Voir le détail d'une tâche :: GET /tache/detail/{id}</h2>
+                    <h2 class="subtitle">Demo de page MVC en Spring Boot</h2>
                 </div>
                 <div class="box">
-                    <h2 class="subtitle">Mettre à jour le % d'avancement :: GET /tache/progres/{id}/{valeur}</h2>
-                    <p>id est l'identifiant de la tâche et valeur est la nouvelle valeur d'avancement.</p>
+                    <ul>
+                        <li>Pour les curieux on a un exemple de MVC avec Spring Boot</li>
+                        <li>Le contrôleur ControllerDemoMVC contient la méthode <strong>index</strong> qui répond en GET sur la racine du site (<strong>/</strong>)</strong></li>
+                        <li>Si le type de retour est String sans annotation, cela indique à Spring Boot de chercher un gabarit html</li>
+                        <li>Si on retourne <strong>index</strong> Spring Boot va chercher un gabarit index.html dans les ressources statiques</li>
+                        <li>le fichier index.html est un gabarit ThymeLeaf</li>
+                    </ul>
                 </div>
             </div>
         </div>
