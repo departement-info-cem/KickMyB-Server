@@ -3,66 +3,124 @@
 <head>
     <title>Le serveur</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <!-- add bulma from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bulma@1.0.3/css/bulma.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .logo {
+            width: 60px;
+            margin-right: 15px;
+        }
+        .hero.is-primary {
+            background: linear-gradient(120deg, #00c6ff 0%, #0072ff 100%);
+        }
+        .box {
+            min-height: 270px;
+        }
+        footer {
+            background: #222;
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .mvc-list {
+            list-style: disc;
+            margin-left: 1.5rem;
+            text-align: left;
+        }
+        .mvc-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+        .main-title {
+            color: #222;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-
+<!-- Hero section avec logo -->
 <section class="hero is-primary">
     <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Bienvenue sur le serveur de KickMyB
-            </h1>
-            <h2 class="subtitle">
-                Incluant la documentation de l'API
-            </h2>
-            <p th:text="|Yo, ${message}!|" />
+        <div class="container is-flex is-align-items-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Logo" class="logo">
+            <div>
+                <h1 class="title">
+                    Bienvenue sur le serveur de KickMyB
+                </h1>
+                <h2 class="subtitle">
+                    Incluant la documentation de l'API
+                </h2>
+                <p th:text="|Yo, ${message}!|" class="has-text-weight-semibold" />
+            </div>
         </div>
     </div>
 </section>
-
 
 <section class="section">
     <div class="container">
-        <h1 class="title">API pour les tâches</h1>
-
+        <h1 class="title has-text-centered mb-6 main-title has-text-dark">API pour les tâches</h1>
         <div class="columns is-multiline">
+            <!-- Swagger -->
             <div class="column is-one-third">
-                <div class="box">
-                    <h2 class="subtitle">Documentation Swagger pour le serveur</h2>
-                    <a href="swagger-ui/index.html">Page HTML</a>
+                <div class="box has-text-centered">
+                    <span class="icon is-large has-text-info">
+                        <i class="fas fa-book fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle mt-2">Documentation Swagger pour le serveur</h2>
+                    <a class="button is-link is-light mb-1" href="swagger-ui/index.html">
+                        <span class="icon"><i class="fas fa-file-alt"></i></span>
+                        <span>Page HTML</span>
+                    </a>
                     <br>
-                    <a href="v3/api-docs">Fichier JSON</a>
+                    <a class="button is-info is-light mb-1" href="v3/api-docs">
+                        <span class="icon"><i class="fas fa-code"></i></span>
+                        <span>Fichier JSON</span>
+                    </a>
                     <br>
-                    <a href="v3/api-docs.yaml">Fichier YAML</a>
+                    <a class="button is-info is-light" href="v3/api-docs.yaml">
+                        <span class="icon"><i class="fas fa-file-code"></i></span>
+                        <span>Fichier YAML</span>
+                    </a>
                 </div>
             </div>
-
+            <!-- H2 Console -->
             <div class="column is-one-third">
-                <div class="box">
-                    <h2 class="subtitle">Lien vers la console h2</h2>
-                    <a href="/h2-console">Console d'admin de la BD</a>
-                    <ul>
-                        <li>changer JDBC URL par jdbc:h2:file:./db/proditos </li>
-                        <li>User Name: sa</li>
-                        <li>Password: (vide)</li>
-                        <li>Appuyer sur Connect</li>
+                <div class="box has-text-centered">
+                    <span class="icon is-large has-text-success">
+                        <i class="fas fa-database fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle mt-2">Lien vers la console H2</h2>
+                    <a class="button is-success is-light mb-2" href="/h2-console">
+                        <span class="icon"><i class="fas fa-terminal"></i></span>
+                        <span>Console d'admin de la BD</span>
+                    </a>
+                    <ul class="has-text-left mt-3">
+                        <li><strong>JDBC URL :</strong> jdbc:h2:file:./db/proditos</li>
+                        <li><strong>User Name :</strong> sa</li>
+                        <li><strong>Password :</strong> (vide)</li>
+                        <li><strong>Appuyer sur Connect</strong></li>
                     </ul>
                 </div>
             </div>
-
+            <!-- Demo MVC -->
             <div class="column is-one-third">
-                <div class="box">
-                    <h2 class="subtitle">Demo de page MVC en Spring Boot</h2>
-                </div>
-                <div class="box">
-                    <ul>
-                        <li>Pour les curieux on a un exemple de MVC avec Spring Boot</li>
-                        <li>Le contrôleur ControllerDemoMVC contient la méthode <strong>index</strong> qui répond en GET sur la racine du site (<strong>/</strong>)</strong></li>
-                        <li>Si le type de retour est String sans annotation, cela indique à Spring Boot de chercher un gabarit html</li>
-                        <li>Si on retourne <strong>index</strong> Spring Boot va chercher un gabarit index.html dans les ressources statiques</li>
-                        <li>le fichier index.html est un gabarit ThymeLeaf</li>
+                <div class="box has-text-centered">
+                    <span class="icon is-large has-text-warning">
+                        <i class="fas fa-laptop-code fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle mt-2">Démo de page MVC en Spring Boot</h2>
+                    <ul class="mvc-list mt-3">
+                        <li>Exemple de MVC avec Spring Boot</li>
+                        <li>Le contrôleur <strong>ControllerDemoMVC</strong> contient la méthode <strong>index</strong> qui répond en GET sur la racine (<strong>/</strong>)</li>
+                        <li>Si le type de retour est <strong>String</strong> sans annotation, Spring Boot cherche un gabarit HTML</li>
+                        <li>Si on retourne <strong>index</strong>, Spring Boot cherche un gabarit <strong>index.html</strong> dans les ressources statiques</li>
+                        <li>Ce fichier est un gabarit <strong>ThymeLeaf</strong></li>
                     </ul>
                 </div>
             </div>
@@ -70,5 +128,8 @@
     </div>
 </section>
 
+<footer>
+    <span>KickMyB Server &copy; 2024 &mdash; Réalisé avec <span class="icon has-text-danger"><i class="fas fa-heart"></i></span> et Bulma</span>
+</footer>
 </body>
 </html>
