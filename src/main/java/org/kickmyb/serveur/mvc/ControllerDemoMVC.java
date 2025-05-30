@@ -20,7 +20,7 @@ public class ControllerDemoMVC {
     // il s'agit d'un template thymeleaf
     // on lui passe un objet Model qui contient des attributs
     @GetMapping("/")
-    public String index(Model modèle) throws IOException {
+    public String index(Model modèle) {
         // plein de calculs ici qui implique la BD des appels serveurs tiers
         // finalement on charge un gabarit thymeleaf qui reçoit le modèle
         modèle.addAttribute("message", "Salut le monde!");

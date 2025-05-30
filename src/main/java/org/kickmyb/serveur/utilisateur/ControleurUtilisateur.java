@@ -32,7 +32,7 @@ public class ControleurUtilisateur {
     private @Autowired SecurityContextRepository securityContextRepository;
 
     @PostMapping("/id/connexion")
-    public @ResponseBody ReponseConnexion connexion(@RequestBody RequeteConnexion s) throws ServiceUtilisateur.MauvaisNomOuMotDePasse {
+    public @ResponseBody ReponseConnexion connexion(@RequestBody RequeteConnexion s) {
         System.out.println("ID : Demande connexion " + s.nom);
         s.nom = s.nom.trim().toLowerCase();
         try {
@@ -48,17 +48,13 @@ public class ControleurUtilisateur {
             resp.nomUtilisateur = s.nom;
             return resp;
         } catch (org.springframework.security.authentication.BadCredentialsException bce) {
+            // TODO valider qu'on passe ici ou pas?
             throw new ServiceUtilisateur.MauvaisNomOuMotDePasse();
         }
     }
 
     @PostMapping("/id/inscription")
-    public @ResponseBody ReponseConnexion inscription(@RequestBody RequeteInscription s)
-            throws ServiceUtilisateur.NomTropCourt,
-            ServiceUtilisateur.MotDePasseTropCourt,
-            ServiceUtilisateur.NomDejaPris,
-            ServiceUtilisateur.MauvaisNomOuMotDePasse,
-            ServiceUtilisateur.MotsDePasseDifferents {
+    public @ResponseBody ReponseConnexion inscription(@RequestBody RequeteInscription s) {
         System.out.println("ID : demande connexion " + s.nom);
         serviceUtilisateur.inscrire(s);
         RequeteConnexion req = new RequeteConnexion();

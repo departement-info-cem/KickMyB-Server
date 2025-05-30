@@ -16,9 +16,10 @@ import java.util.List;
 @Transactional
 public class ServiceTache  {
 
-    public static class Existant extends Exception {}
-    public static class TropCourt extends Exception {}
-    public static class Empty extends Exception {}
+    public static class Existant extends RuntimeException {}
+    public static class TropCourt extends RuntimeException {}
+    public static class TropLong extends RuntimeException {}
+    public static class Vide extends RuntimeException {}
 
     @Autowired
     DepotUtilisateur repoUser;
@@ -61,11 +62,12 @@ public class ServiceTache  {
     // TODO oublier de valider pour une injection javascript
     // TODO Que se passe-t-il si ce n'est pas transactionnel ()
     // TODO test unicité avec script de charge
-    public void ajouteUneTache(RequeteAjoutTache req, Long idUtilisateur) throws Existant, Empty, TropCourt {
+    public void ajouteUneTache(RequeteAjoutTache req, Long idUtilisateur) {
         MUtilisateur utilisateur = repoUser.findById(idUtilisateur).get();
         // valider que c'est non vide
-        if (req.nom.trim().isEmpty()) throw new Empty();
+        if (req.nom.trim().isEmpty()) throw new Vide();
         if (req.nom.trim().length() < 2) throw new TropCourt();
+        if (req.nom.trim().length() > 255) throw new TropLong();
         // valider si le nom existe déjà
         for (MTache b : utilisateur.taches) {
             if (b.nom.equalsIgnoreCase(req.nom)) throw new Existant();
@@ -87,6 +89,7 @@ public class ServiceTache  {
     public void miseAJourProgres(long taskID, int value) {
         MTache element = repo.findById(taskID).get();
         if (value < 0 || value > 100) {
+            // TODO pourquoi être cohérent sur les exceptions quand on peut ne pas l'être
             throw new IllegalArgumentException("Valeur entre 0 et 100");
         }
         MAvancement pe= new MAvancement();
@@ -116,7 +119,7 @@ public class ServiceTache  {
         return t.avancements.isEmpty()? 0 : t.avancements.getLast().nouveauPourcentage;
     }
 
-    // TODO try to see how to make an injection attack example by directly exposing data from DB
+    // TODO permet de faire une injection javascript parce qu'on concatène des trucs fournis par l'utilisateur
     public String index() {
         String res = "<html>";
         res += "<div>Index :</div>";

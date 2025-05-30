@@ -24,7 +24,7 @@ public class ControleurTache {
     private ServiceTache serviceTache;
 
     @PostMapping(value = "/tache/ajout", produces = "text/plain")
-    public @ResponseBody String ajout(@RequestBody RequeteAjoutTache requete) throws ServiceTache.Empty, ServiceTache.Existant, ServiceTache.TropCourt {
+    public @ResponseBody String ajout(@RequestBody RequeteAjoutTache requete) throws ServiceTache.Vide, ServiceTache.Existant, ServiceTache.TropCourt {
         System.out.println("KICKB SERVER : Ajout d'une tâche : " + requete.nom + ", date " + requete.dateLimite);
         MUtilisateur utilisateur = utilisateurDepuisCookie();
         serviceTache.ajouteUneTache(requete, utilisateur.id);

@@ -38,7 +38,7 @@ class TestsServiceUtilisateur {
 	}
 
 	@Test
-	void testInscrireAndSignin() throws ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
+	void testInscrireAndSignin()  {
 		{
 			RequeteInscription req = new RequeteInscription();
 			req.nom = "marie";

@@ -30,23 +30,23 @@ public class ControleurPhoto {
     @Autowired
     private ServiceTache serviceTache;
 
-    @PostMapping(value = "/file", produces = "text/plain")
-    public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("taskID") Long taskID) throws IOException {
+    @PostMapping(value = "/fichier", produces = "text/plain")
+    public ResponseEntity<String> televerser(@RequestParam("file") MultipartFile file, @RequestParam("taskID") Long taskID) throws IOException {
         System.out.println("PHOTO : upload request " + file.getContentType());
         MPhoto p = servicePhoto.stockerLeFichier(file, taskID);
         return ResponseEntity.status(HttpStatus.OK).body(p.id.toString());
     }
 
-    @GetMapping("/file/{id}")
-    public ResponseEntity<byte[]> taskPhoto(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
-        System.out.println("PHOTO : download request " + id + " width " + maxWidth);
+    @GetMapping("/fichier/{id}")
+    public ResponseEntity<byte[]> photoPourLaTache(@PathVariable Long id, @RequestParam(required = false, name = "largeur") Integer largeurMax) throws IOException {
+        System.out.println("PHOTO : requête téléchargement " + id + " largeur " + largeurMax);
         MPhoto pic = servicePhoto.chargerFichier(id);
-        if (maxWidth == null) { // no resizing
+        if (largeurMax == null) { // no resizing
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(pic.blob);
         } else {
             ByteArrayInputStream bais = new ByteArrayInputStream(pic.blob);
             BufferedImage bi = ImageIO.read(bais);
-            BufferedImage resized = Scalr.resize(bi, Scalr.Method.ULTRA_QUALITY, maxWidth);
+            BufferedImage resized = Scalr.resize(bi, Scalr.Method.ULTRA_QUALITY, largeurMax);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(resized, "jpg", baos);
@@ -56,22 +56,22 @@ public class ControleurPhoto {
     }
 
     //Méthode utilisée pour récupérer les items de la liste des tâches avec des photos
-    @GetMapping("/api/home/photo")
-    public @ResponseBody List<ReponseAccueilItemAvecPhoto> homePhoto() {
-        System.out.println("KICKB SERVER : Task list  with cookie");
-        MUtilisateur user = currentUser();
+    @GetMapping("/api/accueil/photo")
+    public @ResponseBody List<ReponseAccueilItemAvecPhoto> accueilPhoto() {
+        System.out.println("KICKB SERVER : liste de l'accueil avec photo");
+        MUtilisateur user = utilisateurCourant();
         return serviceTache.homePhoto(user.id);
     }
 
     //Méthode utilisée pour récupérer le détail d'une tâche avec des photos
     @GetMapping("/api/detail/photo/{id}")
     public @ResponseBody ReponseDetailTacheAvecPhoto detailPhoto(@PathVariable long id) {
-        System.out.println("KICKB SERVER : Detail  with cookie ");
-        MUtilisateur user = currentUser();
+        System.out.println("KICKB SERVER : detail avec photo");
+        MUtilisateur user = utilisateurCourant();
         return serviceTache.detailPhoto(id, user.id);
     }
 
-    private MUtilisateur currentUser() {
+    private MUtilisateur utilisateurCourant() {
         UserDetails ud = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return serviceTache.utilisateurParSonNom(ud.getUsername());
     }

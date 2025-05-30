@@ -34,7 +34,7 @@ class TestsServiceTache {
     private ServiceUtilisateur serviceAccount;
 
     @Test
-    void testAjouterTacheOk() throws ServiceTache.Empty, ServiceTache.Existant, ServiceTache.TropCourt, ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
+    void testAjouterTacheOk() throws ServiceTache.Vide, ServiceTache.Existant, ServiceTache.TropCourt, ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt, ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
 
         // on crée un compte
         RequeteInscription req = new RequeteInscription();
@@ -115,7 +115,7 @@ class TestsServiceTache {
     }
 
     @Test
-    void testAjouterTacheNomExistantKo() throws ServiceTache.Empty, ServiceTache.TropCourt, ServiceTache.Existant,
+    void testAjouterTacheNomExistantKo() throws ServiceTache.Vide, ServiceTache.TropCourt, ServiceTache.Existant,
             ServiceUtilisateur.NomTropCourt, ServiceUtilisateur.MotDePasseTropCourt,
             ServiceUtilisateur.NomDejaPris, ServiceUtilisateur.MotsDePasseDifferents {
 
