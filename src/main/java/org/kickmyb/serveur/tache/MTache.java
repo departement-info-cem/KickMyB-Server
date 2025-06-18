@@ -26,7 +26,7 @@ public class MTache {
     @OneToMany(fetch=FetchType.EAGER)
     public List<MAvancement> avancements = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public MPhoto photo;
 
 }

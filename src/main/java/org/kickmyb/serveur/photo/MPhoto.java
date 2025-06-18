@@ -14,6 +14,6 @@ public class MPhoto {
     @Lob
     public byte[] blob;
     @Basic  public String typeContenu;
-    @OneToOne
+    @OneToOne(mappedBy = "photo")
     public MTache tache;
 }
