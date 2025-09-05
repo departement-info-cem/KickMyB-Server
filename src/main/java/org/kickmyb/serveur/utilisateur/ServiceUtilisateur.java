@@ -55,4 +55,12 @@ public class ServiceUtilisateur implements UserDetailsService {
             throw new NomDejaPris();
         }
     }
+
+    @Transactional
+    public void enregistrerTokenFirebase(String nomUtilisateur, String token) {
+        MUtilisateur utilisateur = userRepository.findByNom(nomUtilisateur.trim().toLowerCase())
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
+        utilisateur.firebaseToken = token;
+        userRepository.save(utilisateur);
+    }
 }

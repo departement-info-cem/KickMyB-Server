@@ -73,4 +73,16 @@ public class ControleurUtilisateur {
         securityContextRepository.saveContext(context, request, response);
         return "";
     }
+
+    @PostMapping(value = "/enregistrer-jeton-notification", produces = "plain/text")
+    public @ResponseBody String enregistrerJetonNotification(@RequestBody String token) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated()) {
+            String nomUtilisateur = auth.getName();
+            serviceUtilisateur.enregistrerTokenFirebase(nomUtilisateur, token);
+            System.out.println("Token Firebase enregistré pour l'utilisateur : " + nomUtilisateur);
+            return "TokenEnregistre";
+        }
+        return "NonAuthentifie";
+    }
 }
