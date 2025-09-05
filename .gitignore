@@ -22,3 +22,4 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 target/
+firebase-service-account-key.json
