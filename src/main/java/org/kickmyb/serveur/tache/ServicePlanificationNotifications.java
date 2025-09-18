@@ -27,9 +27,12 @@ public class ServicePlanificationNotifications {
 
     /**
      * Vérifie chaque jour à 9h00 les tâches qui arrivent à échéance le lendemain
-     * et envoie des notifications push aux utilisateurs concernés
+     * et envoie des notifications push aux utilisateurs concernés.
+     *
+     * Pour éviter aux pauvres étudiants de devoir se lever à 3h00 du matin pour tester, il existe un appel d'API qui permet de forcer cette vérification.
+     * C'est d'ailleurs cet appel qui sera utilisé lors de la correction. Voir ControleurTestNotifications.java
      */
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = "0 0 3 * * *")
     public void verifierTachesEcheanceDemain() {
         logger.info("Début de la vérification des tâches arrivant à échéance demain");
 

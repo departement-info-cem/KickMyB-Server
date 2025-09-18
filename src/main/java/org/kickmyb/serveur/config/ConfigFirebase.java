@@ -45,6 +45,7 @@ public class ConfigFirebase {
                     FirebaseApp.initializeApp(options);
                 }
             }
+            logger.info("Firebase est bien configuré.");
         } catch (IOException e) {
             logger.warn("Firebase n'est pas configuré.");
         }
