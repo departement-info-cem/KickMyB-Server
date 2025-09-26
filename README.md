@@ -9,7 +9,7 @@ Les étudiants doivent programmer un client qui se connecte à ce serveur.
 
 ## Documentation
 
-Pour voir la documentation des points d'entrés, lancer le serveur, et ouvre l'url [http://locahost:8080](http://locahost:8080) dans un navigateur.
+Pour voir la documentation des points d'entrés, lancer le serveur, et ouvre l'url [http://localhost:8080](http://localhost:8080) dans un navigateur.
 
 ## Changements pour passer à Spring Boot 3
 
