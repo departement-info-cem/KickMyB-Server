@@ -8,10 +8,10 @@ Le fichier qui rend notre application compatible avec Docker est le fichier `Doc
 ## Etapes de préparation
 
 1. Render va se connecter sur un repo Github que vous contrôlez pour faire le déploiement
-2. Pour ça, vous allez devoir faire un fork du projet KickMyB-Server
-3. Sur la page [du repo](https://github.com/departement-info-cem/KickMyB-Server)
-4. Trouve le bouton Fork et appuie dessus
-5. Le fork va être un repo qui t'appartient avec l'histoire du projet KickMyB-Server
+2. Pour ça, vous allez devoir faire un nouveau repository privée (Attention plagiat) avec votre copie du projet KickMyB-Server
+3. Clone localement [le repo](https://github.com/departement-info-cem/KickMyB-Server)
+4. Crée un nouveau repo privé sur ton compte GitHub
+5. Copie les fichiers du projet KickMyB-Server dans ton nouveau repo
 6. On peut maintenant procéder au déploiement sur Render
 
 ## Etapes pour le déploiement en tant que tel
@@ -20,7 +20,7 @@ Le fichier qui rend notre application compatible avec Docker est le fichier `Doc
 2. Se connecter avec ton compte GitHub (le même que celui où tu as forké le projet)
 3. Cliquer sur le bouton `New` en haut
 4. Sélectionner `New Web Service` ou `Web Service`
-5. Sélectionner le repo forké depuis le projet KickMyB-Server
+5. Sélectionner ton repo contenant le code du serveur KickMyB-Server
 6. Assure toi de lui donner
   - un nom pratique pour toi, nous on l'a appelé kmb-server
   - la branche est le "main"
