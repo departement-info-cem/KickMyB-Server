@@ -3,6 +3,11 @@
 Ce serveur sert dans le cadre de cours au CÉGEP Édouard-Montpetit. Il sert dans le cadre des cours de programmation mobile.
 Les étudiants doivent programmer un client qui se connecte à ce serveur.
 
+## Partir le projet 
+
+1. se placer dans le dossier du projet
+2. exécuter ./mvnw spring-boot:run
+
 ## Déploiement
 
 [Déploiement sur Render](deploiement-render.md)
