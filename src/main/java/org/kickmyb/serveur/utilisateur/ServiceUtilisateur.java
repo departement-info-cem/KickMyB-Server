@@ -6,7 +6,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,11 +55,4 @@ public class ServiceUtilisateur implements UserDetailsService {
         }
     }
 
-    @Transactional
-    public void enregistrerTokenFirebase(String nomUtilisateur, String token) {
-        MUtilisateur utilisateur = userRepository.findByNom(nomUtilisateur.trim().toLowerCase())
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
-        utilisateur.firebaseToken = token;
-        userRepository.save(utilisateur);
-    }
 }
