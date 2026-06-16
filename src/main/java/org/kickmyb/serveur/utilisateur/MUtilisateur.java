@@ -23,6 +23,9 @@ public class MUtilisateur {
     @Basic
     public String motDePasse;
 
+    @Basic
+    public String firebaseToken;
+
     @OneToMany(fetch=FetchType.EAGER)
     public List<MTache> taches = new ArrayList<>();
 }
